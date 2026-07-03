@@ -1,0 +1,2 @@
+- [Dockerfile dockerignore fix](dockerfile-artifacts-fix.md) — `artifacts` must NOT be in `.dockerignore`; Railway build fails if it is.
+- [Required env secrets](required-secrets.md) — `ADMIN_PIN` and `JWT_SECRET` must be set as secrets for admin login to work.

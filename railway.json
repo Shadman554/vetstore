@@ -1,0 +1,12 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "pnpm install && PORT=5000 BASE_PATH=/ pnpm --filter @workspace/kid-store run build && pnpm --filter @workspace/api-server run build"
+  },
+  "deploy": {
+    "startCommand": "node --enable-source-maps backend/dist/index.mjs",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3
+  }
+}

@@ -1,0 +1,108 @@
+(node:1) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+will require node >=22. You are running node v20.20.2.
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+request completed
+request completed
+request completed
+request completed
+request completed
+request completed
+request completed
+Error creating product: _DrizzleQueryError: Failed query: insert into "products" ("id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "age_range", "created_at") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, default) returning "id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "age_range", "created_at"
+params: test,WAW-003,Test,{"https://media.wawkids.store/products/WAW-003/test-1.webp","https://media.wawkids.store/products/WAW-003/test-2.webp","https://media.wawkids.store/products/WAW-003/test-3.webp","https://media.wawkids.store/products/WAW-003/test-4.webp","https://media.wawkids.store/products/WAW-003/test-5.webp","https://media.wawkids.store/products/WAW-003/test-6.webp","https://media.wawkids.store/products/WAW-003/test-7.webp","https://media.wawkids.store/products/WAW-003/test-8.webp","https://media.wawkids.store/products/WAW-003/test-9.webp","https://media.wawkids.store/products/WAW-003/test-10.webp"},,Test,1e+36,1e+37,1e+33,IQD,3-5
+    at NodePgPreparedQuery.queryWithCache (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/pg-core/session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:154:19)
+    at async <anonymous> (/app/backend/src/routes/products.ts:113:23) {
+  query: 'insert into "products" ("id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "age_range", "created_at") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, default) returning "id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "age_range", "created_at"',
+  params: [
+    'test',
+    'WAW-003',
+    'Test',
+    '{"https://media.wawkids.store/products/WAW-003/test-1.webp","https://media.wawkids.store/products/WAW-003/test-2.webp","https://media.wawkids.store/products/WAW-003/test-3.webp","https://media.wawkids.store/products/WAW-003/test-4.webp","https://media.wawkids.store/products/WAW-003/test-5.webp","https://media.wawkids.store/products/WAW-003/test-6.webp","https://media.wawkids.store/products/WAW-003/test-7.webp","https://media.wawkids.store/products/WAW-003/test-8.webp","https://media.wawkids.store/products/WAW-003/test-9.webp","https://media.wawkids.store/products/WAW-003/test-10.webp"}',
+    null,
+    'Test',
+    1e+36,
+    1e+37,
+    1e+33,
+    'IQD',
+    '3-5'
+  ],
+  cause: error: invalid input syntax for type integer: "1e+33"
+      at <anonymous> (/app/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/pg-core/session.ts:71:12)
+      at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:154:19)
+      at async <anonymous> (/app/backend/src/routes/products.ts:113:23) {
+    length: 148,
+    severity: 'ERROR',
+    code: '22P02',
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: "unnamed portal parameter $9 = '...'",
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'numutils.c',
+    line: '615',
+    routine: 'pg_strtoint32_safe'
+  }
+}
+request errored
+Error creating product: _DrizzleQueryError: Failed query: insert into "products" ("id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "age_range", "created_at") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, default) returning "id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "age_range", "created_at"
+params: test,WAW-003,Test,{"https://media.wawkids.store/products/WAW-003/test-1.webp","https://media.wawkids.store/products/WAW-003/test-2.webp","https://media.wawkids.store/products/WAW-003/test-3.webp","https://media.wawkids.store/products/WAW-003/test-4.webp","https://media.wawkids.store/products/WAW-003/test-5.webp","https://media.wawkids.store/products/WAW-003/test-6.webp","https://media.wawkids.store/products/WAW-003/test-7.webp","https://media.wawkids.store/products/WAW-003/test-8.webp","https://media.wawkids.store/products/WAW-003/test-9.webp","https://media.wawkids.store/products/WAW-003/test-10.webp"},,Test,1e+36,1e+37,1e+33,IQD,3-5
+    at NodePgPreparedQuery.queryWithCache (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/pg-core/session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:154:19)
+    at async <anonymous> (/app/backend/src/routes/products.ts:113:23) {
+  query: 'insert into "products" ("id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "age_range", "created_at") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, default) returning "id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "age_range", "created_at"',
+  params: [
+    'test',
+    'WAW-003',
+    'Test',
+    '{"https://media.wawkids.store/products/WAW-003/test-1.webp","https://media.wawkids.store/products/WAW-003/test-2.webp","https://media.wawkids.store/products/WAW-003/test-3.webp","https://media.wawkids.store/products/WAW-003/test-4.webp","https://media.wawkids.store/products/WAW-003/test-5.webp","https://media.wawkids.store/products/WAW-003/test-6.webp","https://media.wawkids.store/products/WAW-003/test-7.webp","https://media.wawkids.store/products/WAW-003/test-8.webp","https://media.wawkids.store/products/WAW-003/test-9.webp","https://media.wawkids.store/products/WAW-003/test-10.webp"}',
+    null,
+    'Test',
+    1e+36,
+    1e+37,
+    1e+33,
+    'IQD',
+    '3-5'
+  ],
+  cause: error: invalid input syntax for type integer: "1e+33"
+      at <anonymous> (/app/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/pg-core/session.ts:71:12)
+      at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:154:19)
+      at async <anonymous> (/app/backend/src/routes/products.ts:113:23) {
+    length: 148,
+    severity: 'ERROR',
+    code: '22P02',
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: "unnamed portal parameter $9 = '...'",
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: 'numutils.c',
+    line: '615',
+    routine: 'pg_strtoint32_safe'
+  }
+}
+request errored

@@ -1,0 +1,105 @@
+> NODE_ENV=production node --enable-source-maps backend/dist/index.mjs
+> workspace@0.0.0 start /app
+Server listening
+Starting Container
+request completed
+request completed
+request completed
+request completed
+request completed
+request completed
+request completed
+Error fetching products: _DrizzleQueryError: Failed query: select "id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "created_at" from "products" order by "products"."created_at" desc
+params: 
+    at NodePgPreparedQuery.queryWithCache (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/pg-core/session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:154:19)
+    at async <anonymous> (/app/backend/src/routes/products.ts:37:22) {
+  query: 'select "id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "created_at" from "products" order by "products"."created_at" desc',
+  params: [],
+  cause: error: password authentication failed for user "postgres"
+      at <anonymous> (/app/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/pg-core/session.ts:71:12)
+    where: undefined,
+      at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:154:19)
+      at async <anonymous> (/app/backend/src/routes/products.ts:37:22) {
+    schema: undefined,
+    length: 104,
+    table: undefined,
+    severity: 'FATAL',
+    column: undefined,
+    dataType: undefined,
+    code: '28P01',
+    constraint: undefined,
+    detail: undefined,
+    file: 'auth.c',
+    hint: undefined,
+    line: '317',
+    position: undefined,
+    routine: 'auth_failed'
+    internalPosition: undefined,
+    internalQuery: undefined,
+  }
+}
+request errored
+request completed
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+Error fetching products: _DrizzleQueryError: Failed query: select "id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "created_at" from "products" order by "products"."created_at" desc
+      at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:161:13)
+params: 
+      at async NodePgPreparedQuery.queryWithCache (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/pg-core/session.ts:71:12)
+    at NodePgPreparedQuery.queryWithCache (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/pg-core/session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:154:19)
+    at async <anonymous> (/app/backend/src/routes/products.ts:37:22) {
+  query: 'select "id", "code", "name", "images", "image_url", "description", "price_single", "price_bulk", "bulk_min_qty", "currency", "created_at" from "products" order by "products"."created_at" desc',
+  params: [],
+  cause: error: password authentication failed for user "postgres"
+      at <anonymous> (/app/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11)
+    routine: 'auth_failed'
+  }
+    column: undefined,
+}
+    dataType: undefined,
+      at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:154:19)
+request errored
+    constraint: undefined,
+      at async <anonymous> (/app/backend/src/routes/products.ts:37:22) {
+    file: 'auth.c',
+    length: 104,
+    line: '317',
+    internalPosition: undefined,
+    severity: 'FATAL',
+    code: '28P01',
+    internalQuery: undefined,
+    detail: undefined,
+    where: undefined,
+    hint: undefined,
+    position: undefined,
+    schema: undefined,
+    table: undefined,
+More information can be found at: https://a.co/c895JFp
+(node:13) Warning: NodeVersionSupportWarning: The AWS SDK for JavaScript (v3)
+versions published after the first week of January 2027
+(Use `node --trace-warnings ...` to show where the warning was created)
+will require node >=22. You are running node v20.20.2.
+request completed
+To continue receiving updates to AWS services, bug fixes,
+and security updates please upgrade to node >=22.
+      at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:154:19)
+Error creating product: _DrizzleQueryError: Failed query: select "id" from "products"
+params: 
+    at NodePgPreparedQuery.queryWithCache (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/pg-core/session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:154:19)
+    at async uniqueSlug (/app/backend/src/routes/products.ts:21:20)
+    at async <anonymous> (/app/backend/src/routes/products.ts:89:16) {
+  query: 'select "id" from "products"',
+  params: [],
+  cause: error: password authentication failed for user "postgres"
+      at <anonymous> (/app/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+      at async <anonymous> (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/node-postgres/session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (/app/node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/src/pg-core/session.ts:71:12)
