@@ -16655,7 +16655,7 @@ var require_implementation = __commonJS({
     "use strict";
     var ERROR_MESSAGE = "Function.prototype.bind called on incompatible ";
     var toStr = Object.prototype.toString;
-    var max2 = Math.max;
+    var max = Math.max;
     var funcType = "[object Function]";
     var concatty = function concatty2(a, b) {
       var arr = [];
@@ -16707,7 +16707,7 @@ var require_implementation = __commonJS({
           concatty(args, arguments)
         );
       };
-      var boundLength = max2(0, target.length - args.length);
+      var boundLength = max(0, target.length - args.length);
       var boundArgs = [];
       for (var i = 0; i < boundLength; i++) {
         boundArgs[i] = "$" + i;
@@ -16864,7 +16864,7 @@ var require_get_intrinsic = __commonJS({
     var $URIError = require_uri();
     var abs = require_abs();
     var floor = require_floor();
-    var max2 = require_max();
+    var max = require_max();
     var min = require_min();
     var pow = require_pow();
     var round = require_round();
@@ -16978,7 +16978,7 @@ var require_get_intrinsic = __commonJS({
       "%Object.getPrototypeOf%": $ObjectGPO,
       "%Math.abs%": abs,
       "%Math.floor%": floor,
-      "%Math.max%": max2,
+      "%Math.max%": max,
       "%Math.min%": min,
       "%Math.pow%": pow,
       "%Math.round%": round,
@@ -19553,10 +19553,10 @@ var require_proxy_addr = __commonJS({
       if (pos === -1 && ip.kind() === "ipv6" && ip.isIPv4MappedAddress()) {
         ip = ip.toIPv4Address();
       }
-      var max2 = ip.kind() === "ipv6" ? 128 : 32;
+      var max = ip.kind() === "ipv6" ? 128 : 32;
       var range = pos !== -1 ? note.substring(pos + 1, note.length) : null;
       if (range === null) {
-        range = max2;
+        range = max;
       } else if (DIGIT_REGEXP.test(range)) {
         range = parseInt(range, 10);
       } else if (ip.kind() === "ipv4" && isip(range)) {
@@ -19564,7 +19564,7 @@ var require_proxy_addr = __commonJS({
       } else {
         range = null;
       }
-      if (range <= 0 || range > max2) {
+      if (range <= 0 || range > max) {
         throw new TypeError("invalid range on address: " + note);
       }
       return [ip, range];
@@ -20502,27 +20502,27 @@ var require_router = __commonJS({
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var methods = METHODS.map((method) => method.toLowerCase());
-    module.exports = Router7;
+    module.exports = Router12;
     module.exports.Route = Route;
-    function Router7(options) {
-      if (!(this instanceof Router7)) {
-        return new Router7(options);
+    function Router12(options) {
+      if (!(this instanceof Router12)) {
+        return new Router12(options);
       }
       const opts = options || {};
-      function router7(req, res, next) {
-        router7.handle(req, res, next);
+      function router12(req, res, next) {
+        router12.handle(req, res, next);
       }
-      Object.setPrototypeOf(router7, this);
-      router7.caseSensitive = opts.caseSensitive;
-      router7.mergeParams = opts.mergeParams;
-      router7.params = {};
-      router7.strict = opts.strict;
-      router7.stack = [];
-      return router7;
+      Object.setPrototypeOf(router12, this);
+      router12.caseSensitive = opts.caseSensitive;
+      router12.mergeParams = opts.mergeParams;
+      router12.params = {};
+      router12.strict = opts.strict;
+      router12.stack = [];
+      return router12;
     }
-    Router7.prototype = function() {
+    Router12.prototype = function() {
     };
-    Router7.prototype.param = function param(name, fn) {
+    Router12.prototype.param = function param(name, fn) {
       if (!name) {
         throw new TypeError("argument name is required");
       }
@@ -20542,7 +20542,7 @@ var require_router = __commonJS({
       params.push(fn);
       return this;
     };
-    Router7.prototype.handle = function handle(req, res, callback) {
+    Router12.prototype.handle = function handle(req, res, callback) {
       if (!callback) {
         throw new TypeError("argument callback is required");
       }
@@ -20669,7 +20669,7 @@ var require_router = __commonJS({
         }
       }
     };
-    Router7.prototype.use = function use(handler) {
+    Router12.prototype.use = function use(handler) {
       let offset = 0;
       let path2 = "/";
       if (typeof handler !== "function") {
@@ -20702,7 +20702,7 @@ var require_router = __commonJS({
       }
       return this;
     };
-    Router7.prototype.route = function route(path2) {
+    Router12.prototype.route = function route(path2) {
       const route2 = new Route(path2);
       const layer = new Layer(path2, {
         sensitive: this.caseSensitive,
@@ -20717,7 +20717,7 @@ var require_router = __commonJS({
       return route2;
     };
     methods.concat("all").forEach(function(method) {
-      Router7.prototype[method] = function(path2) {
+      Router12.prototype[method] = function(path2) {
         const route = this.route(path2);
         route[method].apply(route, slice.call(arguments, 1));
         return this;
@@ -20900,13 +20900,13 @@ var require_application = __commonJS({
     var compileTrust = require_utils3().compileTrust;
     var resolve = __require("node:path").resolve;
     var once = require_once();
-    var Router7 = require_router();
+    var Router12 = require_router();
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var app2 = exports = module.exports = {};
     var trustProxyDefaultSymbol = "@@symbol:trust_proxy_default";
     app2.init = function init() {
-      var router7 = null;
+      var router12 = null;
       this.cache = /* @__PURE__ */ Object.create(null);
       this.engines = /* @__PURE__ */ Object.create(null);
       this.settings = /* @__PURE__ */ Object.create(null);
@@ -20915,13 +20915,13 @@ var require_application = __commonJS({
         configurable: true,
         enumerable: true,
         get: function getrouter() {
-          if (router7 === null) {
-            router7 = new Router7({
+          if (router12 === null) {
+            router12 = new Router12({
               caseSensitive: this.enabled("case sensitive routing"),
               strict: this.enabled("strict routing")
             });
           }
-          return router7;
+          return router12;
         }
       });
     };
@@ -20992,15 +20992,15 @@ var require_application = __commonJS({
       if (fns.length === 0) {
         throw new TypeError("app.use() requires a middleware function");
       }
-      var router7 = this.router;
+      var router12 = this.router;
       fns.forEach(function(fn2) {
         if (!fn2 || !fn2.handle || !fn2.set) {
-          return router7.use(path2, fn2);
+          return router12.use(path2, fn2);
         }
         debug(".use app under %s", path2);
         fn2.mountpath = path2;
         fn2.parent = this;
-        router7.use(path2, function mounted_app(req, res, next) {
+        router12.use(path2, function mounted_app(req, res, next) {
           var orig = req.app;
           fn2.handle(req, res, function(err) {
             Object.setPrototypeOf(req, orig.request);
@@ -22319,12 +22319,12 @@ var require_cookie = __commonJS({
       } while (index < len);
       return obj;
     }
-    function startIndex(str, index, max2) {
+    function startIndex(str, index, max) {
       do {
         var code = str.charCodeAt(index);
         if (code !== 32 && code !== 9) return index;
-      } while (++index < max2);
-      return max2;
+      } while (++index < max);
+      return max;
     }
     function endIndex(str, index, min) {
       while (index > min) {
@@ -23573,7 +23573,7 @@ var require_express = __commonJS({
     var EventEmitter = __require("node:events").EventEmitter;
     var mixin = require_merge_descriptors();
     var proto = require_application();
-    var Router7 = require_router();
+    var Router12 = require_router();
     var req = require_request();
     var res = require_response();
     exports = module.exports = createApplication;
@@ -23595,8 +23595,8 @@ var require_express = __commonJS({
     exports.application = proto;
     exports.request = req;
     exports.response = res;
-    exports.Route = Router7.Route;
-    exports.Router = Router7;
+    exports.Route = Router12.Route;
+    exports.Router = Router12;
     exports.json = bodyParser.json;
     exports.raw = bodyParser.raw;
     exports.static = require_serve_static();
@@ -27098,7 +27098,7 @@ var require_wait = __commonJS({
     "use strict";
     var MAX_TIMEOUT = 1e3;
     function wait(state, index, expected, timeout, done) {
-      const max2 = Date.now() + timeout;
+      const max = Date.now() + timeout;
       let current = Atomics.load(state, index);
       if (current === expected) {
         done(null, "ok");
@@ -27106,7 +27106,7 @@ var require_wait = __commonJS({
       }
       let prior = current;
       const check2 = (backoff) => {
-        if (Date.now() > max2) {
+        if (Date.now() > max) {
           done(null, "timed-out");
         } else {
           setTimeout(() => {
@@ -27124,14 +27124,14 @@ var require_wait = __commonJS({
       check2(1);
     }
     function waitDiff(state, index, expected, timeout, done) {
-      const max2 = Date.now() + timeout;
+      const max = Date.now() + timeout;
       let current = Atomics.load(state, index);
       if (current !== expected) {
         done(null, "ok");
         return;
       }
       const check2 = (backoff) => {
-        if (Date.now() > max2) {
+        if (Date.now() > max) {
           done(null, "timed-out");
         } else {
           setTimeout(() => {
@@ -30614,8 +30614,8 @@ var require_re = __commonJS({
       [LETTERDASHNUMBER, MAX_SAFE_BUILD_LENGTH]
     ];
     var makeSafeRegex = (value) => {
-      for (const [token, max2] of safeRegexReplacements) {
-        value = value.split(`${token}*`).join(`${token}{0,${max2}}`).split(`${token}+`).join(`${token}{1,${max2}}`);
+      for (const [token, max] of safeRegexReplacements) {
+        value = value.split(`${token}*`).join(`${token}{0,${max}}`).split(`${token}+`).join(`${token}{1,${max}}`);
       }
       return value;
     };
@@ -32003,7 +32003,7 @@ var require_max_satisfying = __commonJS({
     var SemVer = require_semver();
     var Range = require_range2();
     var maxSatisfying = (versions, range, options) => {
-      let max2 = null;
+      let max = null;
       let maxSV = null;
       let rangeObj = null;
       try {
@@ -32013,13 +32013,13 @@ var require_max_satisfying = __commonJS({
       }
       versions.forEach((v) => {
         if (rangeObj.test(v)) {
-          if (!max2 || maxSV.compare(v) === -1) {
-            max2 = v;
-            maxSV = new SemVer(max2, options);
+          if (!max || maxSV.compare(v) === -1) {
+            max = v;
+            maxSV = new SemVer(max, options);
           }
         }
       });
-      return max2;
+      return max;
     };
     module.exports = maxSatisfying;
   }
@@ -32262,17 +32262,17 @@ var require_simplify = __commonJS({
         set2.push([first, null]);
       }
       const ranges = [];
-      for (const [min, max2] of set2) {
-        if (min === max2) {
+      for (const [min, max] of set2) {
+        if (min === max) {
           ranges.push(min);
-        } else if (!max2 && min === v[0]) {
+        } else if (!max && min === v[0]) {
           ranges.push("*");
-        } else if (!max2) {
+        } else if (!max) {
           ranges.push(`>=${min}`);
         } else if (min === v[0]) {
-          ranges.push(`<=${max2}`);
+          ranges.push(`<=${max}`);
         } else {
-          ranges.push(`${min} - ${max2}`);
+          ranges.push(`${min} - ${max}`);
         }
       }
       const simplified = ranges.join(" || ");
@@ -56737,8 +56737,8 @@ var require_typedarray = __commonJS({
           }
         };
         ctor.prototype.subarray = function(start, end) {
-          function clamp(v, min2, max2) {
-            return v < min2 ? min2 : v > max2 ? max2 : v;
+          function clamp(v, min2, max) {
+            return v < min2 ? min2 : v > max ? max : v;
           }
           start = ECMAScript.ToInt32(start);
           end = ECMAScript.ToInt32(end);
@@ -57120,7 +57120,7 @@ var require_multer = __commonJS({
 });
 
 // src/app.ts
-var import_express7 = __toESM(require_express2(), 1);
+var import_express12 = __toESM(require_express2(), 1);
 var import_cors = __toESM(require_lib3(), 1);
 var import_compression = __toESM(require_compression(), 1);
 var import_pino_http = __toESM(require_logger(), 1);
@@ -57128,7 +57128,7 @@ import path from "path";
 import { createReadStream, existsSync } from "fs";
 
 // src/routes/index.ts
-var import_express6 = __toESM(require_express2(), 1);
+var import_express11 = __toESM(require_express2(), 1);
 
 // src/routes/health.ts
 var import_express = __toESM(require_express2(), 1);
@@ -58559,14 +58559,14 @@ var ZodString = class _ZodString2 extends ZodType {
     return min;
   }
   get maxLength() {
-    let max2 = null;
+    let max = null;
     for (const ch of this._def.checks) {
       if (ch.kind === "max") {
-        if (max2 === null || ch.value < max2)
-          max2 = ch.value;
+        if (max === null || ch.value < max)
+          max = ch.value;
       }
     }
-    return max2;
+    return max;
   }
 };
 ZodString.create = (params) => {
@@ -58780,20 +58780,20 @@ var ZodNumber = class _ZodNumber extends ZodType {
     return min;
   }
   get maxValue() {
-    let max2 = null;
+    let max = null;
     for (const ch of this._def.checks) {
       if (ch.kind === "max") {
-        if (max2 === null || ch.value < max2)
-          max2 = ch.value;
+        if (max === null || ch.value < max)
+          max = ch.value;
       }
     }
-    return max2;
+    return max;
   }
   get isInt() {
     return !!this._def.checks.find((ch) => ch.kind === "int" || ch.kind === "multipleOf" && util.isInteger(ch.value));
   }
   get isFinite() {
-    let max2 = null;
+    let max = null;
     let min = null;
     for (const ch of this._def.checks) {
       if (ch.kind === "finite" || ch.kind === "int" || ch.kind === "multipleOf") {
@@ -58802,11 +58802,11 @@ var ZodNumber = class _ZodNumber extends ZodType {
         if (min === null || ch.value > min)
           min = ch.value;
       } else if (ch.kind === "max") {
-        if (max2 === null || ch.value < max2)
-          max2 = ch.value;
+        if (max === null || ch.value < max)
+          max = ch.value;
       }
     }
-    return Number.isFinite(min) && Number.isFinite(max2);
+    return Number.isFinite(min) && Number.isFinite(max);
   }
 };
 ZodNumber.create = (params) => {
@@ -58971,14 +58971,14 @@ var ZodBigInt = class _ZodBigInt extends ZodType {
     return min;
   }
   get maxValue() {
-    let max2 = null;
+    let max = null;
     for (const ch of this._def.checks) {
       if (ch.kind === "max") {
-        if (max2 === null || ch.value < max2)
-          max2 = ch.value;
+        if (max === null || ch.value < max)
+          max = ch.value;
       }
     }
-    return max2;
+    return max;
   }
 };
 ZodBigInt.create = (params) => {
@@ -59105,14 +59105,14 @@ var ZodDate = class _ZodDate extends ZodType {
     return min != null ? new Date(min) : null;
   }
   get maxDate() {
-    let max2 = null;
+    let max = null;
     for (const ch of this._def.checks) {
       if (ch.kind === "max") {
-        if (max2 === null || ch.value < max2)
-          max2 = ch.value;
+        if (max === null || ch.value < max)
+          max = ch.value;
       }
     }
-    return max2 != null ? new Date(max2) : null;
+    return max != null ? new Date(max) : null;
   }
 };
 ZodDate.create = (params) => {
@@ -66838,17 +66838,17 @@ function exists(subquery) {
 function notExists(subquery) {
   return sql`not exists ${subquery}`;
 }
-function between(column, min, max2) {
+function between(column, min, max) {
   return sql`${column} between ${bindIfParam(min, column)} and ${bindIfParam(
-    max2,
+    max,
     column
   )}`;
 }
-function notBetween(column, min, max2) {
+function notBetween(column, min, max) {
   return sql`${column} not between ${bindIfParam(
     min,
     column
-  )} and ${bindIfParam(max2, column)}`;
+  )} and ${bindIfParam(max, column)}`;
 }
 function like(column, value) {
   return sql`${column} like ${value}`;
@@ -67130,6 +67130,14 @@ function mapRelationalRow(tablesConfig, tableConfig, row, buildQueryResultSelect
     }
   }
   return result;
+}
+
+// ../node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/drizzle-orm/sql/functions/aggregate.js
+function count(expression) {
+  return sql`count(${expression || sql.raw("*")})`.mapWith(Number);
+}
+function avg(expression) {
+  return sql`avg(${expression})`.mapWith(String);
 }
 
 // ../node_modules/.pnpm/drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.20.0/node_modules/drizzle-orm/pg-core/view-base.js
@@ -70674,9 +70682,25 @@ function drizzle(...params) {
 var schema_exports = {};
 __export(schema_exports, {
   adminLoginLogsTable: () => adminLoginLogsTable,
+  categoriesTable: () => categoriesTable,
+  couponsTable: () => couponsTable,
+  customersTable: () => customersTable,
+  insertCategorySchema: () => insertCategorySchema,
+  insertCouponSchema: () => insertCouponSchema,
+  insertCustomerSchema: () => insertCustomerSchema,
+  insertOrderItemSchema: () => insertOrderItemSchema,
+  insertOrderSchema: () => insertOrderSchema,
   insertProductSchema: () => insertProductSchema,
+  insertReviewSchema: () => insertReviewSchema,
+  insertVendorSchema: () => insertVendorSchema,
+  insertWishlistSchema: () => insertWishlistSchema,
+  orderItemsTable: () => orderItemsTable,
+  ordersTable: () => ordersTable,
   productsTable: () => productsTable,
-  siteSettingsTable: () => siteSettingsTable
+  reviewsTable: () => reviewsTable,
+  siteSettingsTable: () => siteSettingsTable,
+  vendorsTable: () => vendorsTable,
+  wishlistTable: () => wishlistTable
 });
 
 // ../node_modules/.pnpm/zod@3.25.76/node_modules/zod/v4/classic/external.js
@@ -81906,11 +81930,11 @@ function columnToSchema(column, factory) {
 function numberColumnToSchema(column, z, coerce) {
   let unsigned = column.getSQLType().includes("unsigned");
   let min;
-  let max2;
+  let max;
   let integer3 = false;
   if (isColumnType(column, ["MySqlTinyInt", "SingleStoreTinyInt"])) {
     min = unsigned ? 0 : CONSTANTS.INT8_MIN;
-    max2 = unsigned ? CONSTANTS.INT8_UNSIGNED_MAX : CONSTANTS.INT8_MAX;
+    max = unsigned ? CONSTANTS.INT8_UNSIGNED_MAX : CONSTANTS.INT8_MAX;
     integer3 = true;
   } else if (isColumnType(column, [
     "PgSmallInt",
@@ -81919,7 +81943,7 @@ function numberColumnToSchema(column, z, coerce) {
     "SingleStoreSmallInt"
   ])) {
     min = unsigned ? 0 : CONSTANTS.INT16_MIN;
-    max2 = unsigned ? CONSTANTS.INT16_UNSIGNED_MAX : CONSTANTS.INT16_MAX;
+    max = unsigned ? CONSTANTS.INT16_UNSIGNED_MAX : CONSTANTS.INT16_MAX;
     integer3 = true;
   } else if (isColumnType(column, [
     "PgReal",
@@ -81929,7 +81953,7 @@ function numberColumnToSchema(column, z, coerce) {
     "SingleStoreFloat"
   ])) {
     min = unsigned ? 0 : CONSTANTS.INT24_MIN;
-    max2 = unsigned ? CONSTANTS.INT24_UNSIGNED_MAX : CONSTANTS.INT24_MAX;
+    max = unsigned ? CONSTANTS.INT24_UNSIGNED_MAX : CONSTANTS.INT24_MAX;
     integer3 = isColumnType(column, ["MySqlMediumInt", "SingleStoreMediumInt"]);
   } else if (isColumnType(column, [
     "PgInteger",
@@ -81938,7 +81962,7 @@ function numberColumnToSchema(column, z, coerce) {
     "SingleStoreInt"
   ])) {
     min = unsigned ? 0 : CONSTANTS.INT32_MIN;
-    max2 = unsigned ? CONSTANTS.INT32_UNSIGNED_MAX : CONSTANTS.INT32_MAX;
+    max = unsigned ? CONSTANTS.INT32_UNSIGNED_MAX : CONSTANTS.INT32_MAX;
     integer3 = true;
   } else if (isColumnType(column, [
     "PgDoublePrecision",
@@ -81949,7 +81973,7 @@ function numberColumnToSchema(column, z, coerce) {
     "SQLiteReal"
   ])) {
     min = unsigned ? 0 : CONSTANTS.INT48_MIN;
-    max2 = unsigned ? CONSTANTS.INT48_UNSIGNED_MAX : CONSTANTS.INT48_MAX;
+    max = unsigned ? CONSTANTS.INT48_UNSIGNED_MAX : CONSTANTS.INT48_MAX;
   } else if (isColumnType(column, [
     "PgBigInt53",
     "PgBigSerial53",
@@ -81961,47 +81985,47 @@ function numberColumnToSchema(column, z, coerce) {
   ])) {
     unsigned = unsigned || isColumnType(column, ["MySqlSerial", "SingleStoreSerial"]);
     min = unsigned ? 0 : Number.MIN_SAFE_INTEGER;
-    max2 = Number.MAX_SAFE_INTEGER;
+    max = Number.MAX_SAFE_INTEGER;
     integer3 = true;
   } else if (isColumnType(column, ["MySqlYear", "SingleStoreYear"])) {
     min = 1901;
-    max2 = 2155;
+    max = 2155;
     integer3 = true;
   } else {
     min = Number.MIN_SAFE_INTEGER;
-    max2 = Number.MAX_SAFE_INTEGER;
+    max = Number.MAX_SAFE_INTEGER;
   }
   let schema = coerce === true || coerce?.number ? integer3 ? z.coerce.number() : z.coerce.number().int() : integer3 ? z.int() : z.number();
-  schema = schema.gte(min).lte(max2);
+  schema = schema.gte(min).lte(max);
   return schema;
 }
 function bigintColumnToSchema(column, z, coerce) {
   const unsigned = column.getSQLType().includes("unsigned");
   const min = unsigned ? 0n : CONSTANTS.INT64_MIN;
-  const max2 = unsigned ? CONSTANTS.INT64_UNSIGNED_MAX : CONSTANTS.INT64_MAX;
+  const max = unsigned ? CONSTANTS.INT64_UNSIGNED_MAX : CONSTANTS.INT64_MAX;
   const schema = coerce === true || coerce?.bigint ? z.coerce.bigint() : z.bigint();
-  return schema.gte(min).lte(max2);
+  return schema.gte(min).lte(max);
 }
 function stringColumnToSchema(column, z, coerce) {
   if (isColumnType(column, ["PgUUID"])) {
     return z.uuid();
   }
-  let max2;
+  let max;
   let regex;
   let fixed = false;
   if (isColumnType(column, ["PgVarchar", "SQLiteText"])) {
-    max2 = column.length;
+    max = column.length;
   } else if (isColumnType(column, ["MySqlVarChar", "SingleStoreVarChar"])) {
-    max2 = column.length ?? CONSTANTS.INT16_UNSIGNED_MAX;
+    max = column.length ?? CONSTANTS.INT16_UNSIGNED_MAX;
   } else if (isColumnType(column, ["MySqlText", "SingleStoreText"])) {
     if (column.textType === "longtext") {
-      max2 = CONSTANTS.INT32_UNSIGNED_MAX;
+      max = CONSTANTS.INT32_UNSIGNED_MAX;
     } else if (column.textType === "mediumtext") {
-      max2 = CONSTANTS.INT24_UNSIGNED_MAX;
+      max = CONSTANTS.INT24_UNSIGNED_MAX;
     } else if (column.textType === "text") {
-      max2 = CONSTANTS.INT16_UNSIGNED_MAX;
+      max = CONSTANTS.INT16_UNSIGNED_MAX;
     } else {
-      max2 = CONSTANTS.INT8_UNSIGNED_MAX;
+      max = CONSTANTS.INT8_UNSIGNED_MAX;
     }
   }
   if (isColumnType(column, [
@@ -82009,16 +82033,16 @@ function stringColumnToSchema(column, z, coerce) {
     "MySqlChar",
     "SingleStoreChar"
   ])) {
-    max2 = column.length;
+    max = column.length;
     fixed = true;
   }
   if (isColumnType(column, ["PgBinaryVector"])) {
     regex = /^[01]+$/;
-    max2 = column.dimensions;
+    max = column.dimensions;
   }
   let schema = coerce === true || coerce?.string ? z.coerce.string() : z.string();
   schema = regex ? schema.regex(regex) : schema;
-  return max2 && fixed ? schema.length(max2) : max2 ? schema.max(max2) : schema;
+  return max && fixed ? schema.length(max) : max ? schema.max(max) : schema;
 }
 function getColumns(tableLike) {
   return isTable(tableLike) ? getTableColumns(tableLike) : getViewSelectedFields(tableLike);
@@ -82066,24 +82090,133 @@ var createInsertSchema = (entity, refine2) => {
 };
 
 // ../lib/db/src/schema/index.ts
-var productsTable = pgTable("products", {
+var vendorsTable = pgTable("vendors", {
   id: text("id").primaryKey(),
-  code: text("code").notNull(),
+  slug: text("slug").notNull().unique(),
   name: text("name").notNull(),
-  images: text("images").array(),
-  imageUrl: text("image_url"),
+  email: text("email").notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
+  phone: text("phone"),
+  logoUrl: text("logo_url"),
+  bannerUrl: text("banner_url"),
   description: text("description"),
-  priceSingle: doublePrecision("price_single").notNull(),
-  priceBulk: doublePrecision("price_bulk").notNull().default(0),
-  bulkMinQty: integer("bulk_min_qty"),
-  currency: text("currency").notNull().default("USD"),
-  ageRange: text("age_range"),
+  status: text("status").notNull().default("pending"),
+  // pending | approved | rejected
+  commissionRate: doublePrecision("commission_rate"),
+  // percent override; falls back to platform default
   createdAt: timestamp("created_at").defaultNow().notNull()
 });
-var insertProductSchema = createInsertSchema(productsTable, {
-  currency: external_exports.enum(["USD", "IQD"]),
-  ageRange: external_exports.enum(["0-3", "3-5", "5+"]).nullable().optional()
+var insertVendorSchema = createInsertSchema(vendorsTable, {
+  status: external_exports.enum(["pending", "approved", "rejected"]).optional()
 }).omit({ createdAt: true });
+var categoriesTable = pgTable("categories", {
+  id: text("id").primaryKey(),
+  slug: text("slug").notNull().unique(),
+  name: text("name").notNull()
+});
+var insertCategorySchema = createInsertSchema(categoriesTable);
+var productsTable = pgTable("products", {
+  id: text("id").primaryKey(),
+  vendorId: text("vendor_id").notNull(),
+  slug: text("slug").notNull().unique(),
+  sku: text("sku"),
+  barcode: text("barcode"),
+  brand: text("brand"),
+  categoryId: text("category_id"),
+  species: text("species"),
+  // dog | cat | bird | farm | other
+  name: text("name").notNull(),
+  description: text("description"),
+  ingredients: text("ingredients"),
+  images: text("images").array(),
+  price: doublePrecision("price").notNull(),
+  salePrice: doublePrecision("sale_price"),
+  stock: integer("stock").notNull().default(0),
+  weight: text("weight"),
+  expirationDate: date("expiration_date"),
+  status: text("status").notNull().default("active"),
+  // active | inactive
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull()
+});
+var insertProductSchema = createInsertSchema(productsTable, {
+  species: external_exports.enum(["dog", "cat", "bird", "farm", "other"]).nullable().optional(),
+  status: external_exports.enum(["active", "inactive"]).optional()
+}).omit({ createdAt: true, updatedAt: true });
+var customersTable = pgTable("customers", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
+  phone: text("phone"),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertCustomerSchema = createInsertSchema(customersTable).omit({ createdAt: true });
+var couponsTable = pgTable("coupons", {
+  id: text("id").primaryKey(),
+  vendorId: text("vendor_id"),
+  // null = platform-wide coupon
+  code: text("code").notNull().unique(),
+  discountType: text("discount_type").notNull(),
+  // percent | fixed
+  discountValue: doublePrecision("discount_value").notNull(),
+  expiresAt: timestamp("expires_at"),
+  active: boolean("active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertCouponSchema = createInsertSchema(couponsTable, {
+  discountType: external_exports.enum(["percent", "fixed"])
+}).omit({ createdAt: true });
+var ordersTable = pgTable("orders", {
+  id: text("id").primaryKey(),
+  customerId: text("customer_id"),
+  customerName: text("customer_name").notNull(),
+  customerPhone: text("customer_phone").notNull(),
+  customerAddress: text("customer_address"),
+  status: text("status").notNull().default("pending"),
+  // pending | confirmed | shipped | delivered | cancelled
+  subtotal: doublePrecision("subtotal").notNull(),
+  discountTotal: doublePrecision("discount_total").notNull().default(0),
+  commissionTotal: doublePrecision("commission_total").notNull().default(0),
+  total: doublePrecision("total").notNull(),
+  couponCode: text("coupon_code"),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertOrderSchema = createInsertSchema(ordersTable, {
+  status: external_exports.enum(["pending", "confirmed", "shipped", "delivered", "cancelled"]).optional()
+}).omit({ createdAt: true });
+var orderItemsTable = pgTable("order_items", {
+  id: text("id").primaryKey(),
+  orderId: text("order_id").notNull(),
+  productId: text("product_id").notNull(),
+  vendorId: text("vendor_id").notNull(),
+  productName: text("product_name").notNull(),
+  quantity: integer("quantity").notNull(),
+  unitPrice: doublePrecision("unit_price").notNull(),
+  lineTotal: doublePrecision("line_total").notNull(),
+  commissionRate: doublePrecision("commission_rate").notNull(),
+  commissionAmount: doublePrecision("commission_amount").notNull()
+});
+var insertOrderItemSchema = createInsertSchema(orderItemsTable);
+var reviewsTable = pgTable("reviews", {
+  id: text("id").primaryKey(),
+  productId: text("product_id").notNull(),
+  customerId: text("customer_id"),
+  customerName: text("customer_name").notNull(),
+  rating: integer("rating").notNull(),
+  comment: text("comment"),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertReviewSchema = createInsertSchema(reviewsTable, {
+  rating: external_exports.number().int().min(1).max(5)
+}).omit({ createdAt: true });
+var wishlistTable = pgTable("wishlist", {
+  id: text("id").primaryKey(),
+  customerId: text("customer_id").notNull(),
+  productId: text("product_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull()
+});
+var insertWishlistSchema = createInsertSchema(wishlistTable).omit({ createdAt: true });
 var siteSettingsTable = pgTable("site_settings", {
   key: text("key").primaryKey(),
   value: text("value").notNull(),
@@ -82169,6 +82302,53 @@ function requireAdmin(req, res, next) {
   } catch {
     res.status(401).json({ error: "Invalid or expired token" });
   }
+}
+function verifyToken(req, role) {
+  const auth = req.headers.authorization;
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!auth?.startsWith("Bearer ") || !jwtSecret) return null;
+  try {
+    const payload = import_jsonwebtoken.default.verify(auth.slice(7), jwtSecret);
+    if (payload.role !== role) return null;
+    return payload;
+  } catch {
+    return null;
+  }
+}
+function requireVendor(req, res, next) {
+  const payload = verifyToken(req, "vendor");
+  if (!payload) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+  req.vendorId = payload.vendorId;
+  next();
+}
+function requireCustomer(req, res, next) {
+  const payload = verifyToken(req, "customer");
+  if (!payload) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+  req.customerId = payload.customerId;
+  next();
+}
+function optionalCustomer(req, _res, next) {
+  const payload = verifyToken(req, "customer");
+  if (payload) req.customerId = payload.customerId;
+  next();
+}
+function signVendorToken(vendorId) {
+  const jwtSecret = process.env.JWT_SECRET;
+  return import_jsonwebtoken.default.sign({ role: "vendor", vendorId }, jwtSecret, {
+    expiresIn: "30d"
+  });
+}
+function signCustomerToken(customerId) {
+  const jwtSecret = process.env.JWT_SECRET;
+  return import_jsonwebtoken.default.sign({ role: "customer", customerId }, jwtSecret, {
+    expiresIn: "30d"
+  });
 }
 
 // src/routes/admin.ts
@@ -82326,34 +82506,6 @@ function getS3Client() {
     credentials: { accessKeyId, secretAccessKey }
   });
 }
-async function deleteR2Folder(prefix) {
-  const s3 = getS3Client();
-  const bucketName = process.env.R2_BUCKET_NAME;
-  if (!s3 || !bucketName) return;
-  let continuationToken;
-  do {
-    const listed = await s3.send(
-      new ListObjectsV2Command({
-        Bucket: bucketName,
-        Prefix: prefix,
-        ContinuationToken: continuationToken
-      })
-    );
-    const objects = listed.Contents?.filter((o) => o.Key) ?? [];
-    if (objects.length > 0) {
-      await s3.send(
-        new DeleteObjectsCommand({
-          Bucket: bucketName,
-          Delete: {
-            Objects: objects.map((o) => ({ Key: o.Key })),
-            Quiet: true
-          }
-        })
-      );
-    }
-    continuationToken = listed.IsTruncated ? listed.NextContinuationToken : void 0;
-  } while (continuationToken);
-}
 
 // src/routes/upload.ts
 var import_multer = __toESM(require_multer(), 1);
@@ -82468,149 +82620,9 @@ router3.get("/images/*key", async (req, res) => {
 });
 var upload_default = router3;
 
-// src/routes/products.ts
+// src/routes/settings.ts
 var import_express4 = __toESM(require_express2(), 1);
 var router4 = (0, import_express4.Router)();
-function slugify2(name) {
-  const base = name.toLowerCase().trim().replace(/[\s_]+/g, "-").replace(/[^\w\u0600-\u06FF-]/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "");
-  return base || Date.now().toString();
-}
-async function uniqueSlug(name) {
-  const base = slugify2(name);
-  const existing = await db.select({ id: productsTable.id }).from(productsTable);
-  const ids = new Set(existing.map((p) => p.id));
-  if (!ids.has(base)) return base;
-  let i = 2;
-  while (ids.has(`${base}-${i}`)) i++;
-  return `${base}-${i}`;
-}
-function generateCode(num) {
-  return `WAW-${String(num).padStart(3, "0")}`;
-}
-async function getNextCodeNum() {
-  const [row] = await db.select({ maxNum: sql`COALESCE(MAX(CAST(SUBSTRING(code FROM 5) AS INTEGER)), 0)` }).from(productsTable).where(sql`code LIKE 'WAW-%'`);
-  return (row?.maxNum ?? 0) + 1;
-}
-router4.get("/admin/next-code", requireAdmin, async (_req, res) => {
-  try {
-    const nextNum = await getNextCodeNum();
-    res.json({ code: generateCode(nextNum) });
-  } catch (err) {
-    console.error("Error getting next code:", err);
-    res.status(500).json({ error: "Failed to get next code" });
-  }
-});
-router4.get("/products", async (_req, res) => {
-  try {
-    const products = await db.select().from(productsTable).orderBy(desc(productsTable.createdAt));
-    res.setHeader("Cache-Control", "no-store");
-    res.json(products);
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    if (msg.includes("DATABASE_URL")) {
-      res.status(503).json({ error: "Database not configured. Set DATABASE_URL." });
-    } else {
-      console.error("Error fetching products:", err);
-      res.status(500).json({ error: "Failed to fetch products" });
-    }
-  }
-});
-router4.get("/products/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const [product] = await db.select().from(productsTable).where(eq(productsTable.id, id));
-    if (!product) {
-      res.status(404).json({ error: "Product not found" });
-      return;
-    }
-    res.json(product);
-  } catch (err) {
-    console.error("Error fetching product:", err);
-    res.status(500).json({ error: "Failed to fetch product" });
-  }
-});
-router4.post("/admin/products", requireAdmin, async (req, res) => {
-  try {
-    const body = req.body;
-    if (!body.name || typeof body.priceSingle !== "number") {
-      res.status(400).json({ error: "name and priceSingle are required" });
-      return;
-    }
-    const id = await uniqueSlug(body.name);
-    const nextNum = await getNextCodeNum();
-    const [product] = await db.insert(productsTable).values({
-      id,
-      code: generateCode(nextNum),
-      name: body.name,
-      description: body.description ?? null,
-      images: body.images && body.images.length > 0 ? body.images : null,
-      imageUrl: body.imageUrl ?? null,
-      priceSingle: body.priceSingle,
-      priceBulk: body.priceBulk ?? 0,
-      bulkMinQty: body.bulkMinQty != null ? Math.min(Math.round(body.bulkMinQty), 2147483647) : null,
-      currency: body.currency ?? "USD",
-      ageRange: body.ageRange ?? null
-    }).returning();
-    res.status(201).json(product);
-  } catch (err) {
-    console.error("Error creating product:", err);
-    res.status(500).json({ error: "Failed to create product" });
-  }
-});
-router4.put("/admin/products/:id", requireAdmin, async (req, res) => {
-  try {
-    const id = req.params.id;
-    const body = req.body;
-    const updates = {};
-    if (body.name !== void 0) updates.name = body.name;
-    if (body.code !== void 0 && /^WAW-\d{3,}$/.test(body.code)) updates.code = body.code;
-    if (body.description !== void 0) updates.description = body.description || null;
-    if (body.images !== void 0)
-      updates.images = body.images.length > 0 ? body.images : null;
-    if (body.imageUrl !== void 0) updates.imageUrl = body.imageUrl || null;
-    if (body.priceSingle !== void 0) updates.priceSingle = body.priceSingle;
-    if (body.priceBulk !== void 0) updates.priceBulk = body.priceBulk;
-    if (body.bulkMinQty !== void 0) updates.bulkMinQty = body.bulkMinQty ? Math.min(Math.round(body.bulkMinQty), 2147483647) : null;
-    if (body.currency !== void 0) updates.currency = body.currency;
-    if ("ageRange" in body) updates.ageRange = body.ageRange ?? null;
-    const [product] = await db.update(productsTable).set(updates).where(eq(productsTable.id, id)).returning();
-    if (!product) {
-      res.status(404).json({ error: "Product not found" });
-      return;
-    }
-    res.json(product);
-  } catch (err) {
-    console.error("Error updating product:", err);
-    res.status(500).json({ error: "Failed to update product" });
-  }
-});
-router4.delete("/admin/products/:id", requireAdmin, async (req, res) => {
-  try {
-    const id = req.params.id;
-    const [product] = await db.select({ id: productsTable.id, code: productsTable.code }).from(productsTable).where(eq(productsTable.id, id));
-    if (!product) {
-      res.status(404).json({ error: "Product not found" });
-      return;
-    }
-    if (product.code) {
-      try {
-        await deleteR2Folder(`products/${product.code}/`);
-      } catch (r2Err) {
-        console.error("R2 cleanup warning (product still deleted):", r2Err);
-      }
-    }
-    await db.delete(productsTable).where(eq(productsTable.id, id));
-    res.json({ success: true });
-  } catch (err) {
-    console.error("Error deleting product:", err);
-    res.status(500).json({ error: "Failed to delete product" });
-  }
-});
-var products_default = router4;
-
-// src/routes/settings.ts
-var import_express5 = __toESM(require_express2(), 1);
-var router5 = (0, import_express5.Router)();
 var DEFAULT_WHATSAPP = process.env.WHATSAPP_NUMBER ?? "9647501234567";
 async function getSetting(key) {
   try {
@@ -82620,7 +82632,7 @@ async function getSetting(key) {
     return null;
   }
 }
-router5.get("/settings", async (_req, res) => {
+router4.get("/settings", async (_req, res) => {
   try {
     const whatsappNumber = await getSetting("whatsapp_number") ?? DEFAULT_WHATSAPP;
     const whatsappEnabledStr = await getSetting("whatsapp_enabled");
@@ -82632,7 +82644,7 @@ router5.get("/settings", async (_req, res) => {
     res.json({ whatsappNumber: DEFAULT_WHATSAPP, whatsappEnabled });
   }
 });
-router5.put("/admin/settings", requireAdmin, async (req, res) => {
+router4.put("/admin/settings", requireAdmin, async (req, res) => {
   try {
     const { whatsappNumber, whatsappEnabled } = req.body;
     if (whatsappNumber) {
@@ -82660,16 +82672,1019 @@ router5.put("/admin/settings", requireAdmin, async (req, res) => {
     res.status(500).json({ error: "Failed to save setting" });
   }
 });
-var settings_default = router5;
+var settings_default = router4;
+
+// src/routes/catalog.ts
+var import_express5 = __toESM(require_express2(), 1);
+import { randomUUID as randomUUID2 } from "crypto";
+
+// src/lib/slug.ts
+function slugify2(name) {
+  const base = name.toLowerCase().trim().replace(/[\s_]+/g, "-").replace(/[^\w\u0600-\u06FF-]/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "");
+  return base || Date.now().toString();
+}
+async function makeUniqueSlug(name, existingSlugs) {
+  const base = slugify2(name);
+  if (!await existingSlugs(base)) return base;
+  let i = 2;
+  while (await existingSlugs(`${base}-${i}`)) i++;
+  return `${base}-${i}`;
+}
+
+// src/routes/catalog.ts
+var router5 = (0, import_express5.Router)();
+router5.get("/categories", async (_req, res) => {
+  try {
+    const categories = await db.select().from(categoriesTable).orderBy(categoriesTable.name);
+    res.json(categories);
+  } catch (err) {
+    console.error("Error fetching categories:", err);
+    res.status(500).json({ error: "Failed to fetch categories" });
+  }
+});
+router5.post("/admin/categories", requireAdmin, async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) {
+      res.status(400).json({ error: "name is required" });
+      return;
+    }
+    const slug = await makeUniqueSlug(name, async (candidate) => {
+      const [row] = await db.select({ id: categoriesTable.id }).from(categoriesTable).where(eq(categoriesTable.slug, candidate));
+      return !!row;
+    });
+    const [category] = await db.insert(categoriesTable).values({ id: randomUUID2(), slug, name }).returning();
+    res.status(201).json(category);
+  } catch (err) {
+    console.error("Error creating category:", err);
+    res.status(500).json({ error: "Failed to create category" });
+  }
+});
+router5.delete("/admin/categories/:id", requireAdmin, async (req, res) => {
+  try {
+    await db.delete(categoriesTable).where(eq(categoriesTable.id, req.params.id));
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Error deleting category:", err);
+    res.status(500).json({ error: "Failed to delete category" });
+  }
+});
+function publicVendor(v) {
+  const { passwordHash, email: email3, commissionRate, ...rest } = v;
+  return rest;
+}
+router5.get("/vendors", async (_req, res) => {
+  try {
+    const vendors = await db.select().from(vendorsTable).where(eq(vendorsTable.status, "approved")).orderBy(vendorsTable.name);
+    res.json(vendors.map(publicVendor));
+  } catch (err) {
+    console.error("Error fetching vendors:", err);
+    res.status(500).json({ error: "Failed to fetch vendors" });
+  }
+});
+router5.get("/vendors/:slug", async (req, res) => {
+  try {
+    const [vendor] = await db.select().from(vendorsTable).where(eq(vendorsTable.slug, req.params.slug));
+    if (!vendor || vendor.status !== "approved") {
+      res.status(404).json({ error: "Store not found" });
+      return;
+    }
+    res.json(publicVendor(vendor));
+  } catch (err) {
+    console.error("Error fetching vendor:", err);
+    res.status(500).json({ error: "Failed to fetch store" });
+  }
+});
+router5.get("/products", async (req, res) => {
+  try {
+    const { category, vendorId, species, brand, q, minPrice, maxPrice, sort } = req.query;
+    const conditions = [eq(productsTable.status, "active"), eq(vendorsTable.status, "approved")];
+    if (category) conditions.push(eq(productsTable.categoryId, category));
+    if (vendorId) conditions.push(eq(productsTable.vendorId, vendorId));
+    if (species) conditions.push(eq(productsTable.species, species));
+    if (brand) conditions.push(ilike(productsTable.brand, brand));
+    if (q) conditions.push(ilike(productsTable.name, `%${q}%`));
+    if (minPrice) conditions.push(gte(productsTable.price, Number(minPrice)));
+    if (maxPrice) conditions.push(lte(productsTable.price, Number(maxPrice)));
+    let orderBy = desc(productsTable.createdAt);
+    if (sort === "price_asc") orderBy = sql`${productsTable.price} asc`;
+    if (sort === "price_desc") orderBy = sql`${productsTable.price} desc`;
+    if (sort === "name_asc") orderBy = sql`${productsTable.name} asc`;
+    const rows = await db.select({ product: productsTable, vendorName: vendorsTable.name, vendorSlug: vendorsTable.slug }).from(productsTable).innerJoin(vendorsTable, eq(productsTable.vendorId, vendorsTable.id)).where(and(...conditions)).orderBy(orderBy);
+    res.setHeader("Cache-Control", "no-store");
+    res.json(rows.map((r) => ({ ...r.product, vendorName: r.vendorName, vendorSlug: r.vendorSlug })));
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (msg.includes("DATABASE_URL")) {
+      res.status(503).json({ error: "Database not configured. Set DATABASE_URL." });
+    } else {
+      console.error("Error fetching products:", err);
+      res.status(500).json({ error: "Failed to fetch products" });
+    }
+  }
+});
+router5.get("/products/:slug", async (req, res) => {
+  try {
+    const [row] = await db.select({ product: productsTable, vendorName: vendorsTable.name, vendorSlug: vendorsTable.slug, vendorLogoUrl: vendorsTable.logoUrl }).from(productsTable).innerJoin(vendorsTable, eq(productsTable.vendorId, vendorsTable.id)).where(eq(productsTable.slug, req.params.slug));
+    if (!row) {
+      res.status(404).json({ error: "Product not found" });
+      return;
+    }
+    const [ratingRow] = await db.select({ avgRating: avg(reviewsTable.rating), reviewCount: count(reviewsTable.id) }).from(reviewsTable).where(eq(reviewsTable.productId, row.product.id));
+    res.json({
+      ...row.product,
+      vendorName: row.vendorName,
+      vendorSlug: row.vendorSlug,
+      vendorLogoUrl: row.vendorLogoUrl,
+      avgRating: ratingRow?.avgRating ? Number(ratingRow.avgRating) : null,
+      reviewCount: ratingRow?.reviewCount ?? 0
+    });
+  } catch (err) {
+    console.error("Error fetching product:", err);
+    res.status(500).json({ error: "Failed to fetch product" });
+  }
+});
+router5.get("/products/:id/reviews", async (req, res) => {
+  try {
+    const reviews = await db.select().from(reviewsTable).where(eq(reviewsTable.productId, req.params.id)).orderBy(desc(reviewsTable.createdAt));
+    res.json(reviews);
+  } catch (err) {
+    console.error("Error fetching reviews:", err);
+    res.status(500).json({ error: "Failed to fetch reviews" });
+  }
+});
+router5.post("/products/:id/reviews", optionalCustomer, async (req, res) => {
+  try {
+    const { rating, comment, customerName } = req.body;
+    if (!rating || rating < 1 || rating > 5) {
+      res.status(400).json({ error: "rating must be between 1 and 5" });
+      return;
+    }
+    if (!req.customerId && !customerName) {
+      res.status(400).json({ error: "customerName is required for guest reviews" });
+      return;
+    }
+    const [product] = await db.select({ id: productsTable.id }).from(productsTable).where(eq(productsTable.id, req.params.id));
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+      return;
+    }
+    const [review] = await db.insert(reviewsTable).values({
+      id: randomUUID2(),
+      productId: req.params.id,
+      customerId: req.customerId ?? null,
+      customerName: customerName ?? "Verified customer",
+      rating: Math.round(rating),
+      comment: comment ?? null
+    }).returning();
+    res.status(201).json(review);
+  } catch (err) {
+    console.error("Error creating review:", err);
+    res.status(500).json({ error: "Failed to submit review" });
+  }
+});
+router5.post("/coupons/validate", async (req, res) => {
+  try {
+    const { code, vendorIds } = req.body;
+    if (!code) {
+      res.status(400).json({ error: "code is required" });
+      return;
+    }
+    const [coupon] = await db.select().from(couponsTable).where(eq(couponsTable.code, code.toUpperCase()));
+    if (!coupon || !coupon.active) {
+      res.status(404).json({ error: "Invalid coupon code" });
+      return;
+    }
+    if (coupon.expiresAt && new Date(coupon.expiresAt) < /* @__PURE__ */ new Date()) {
+      res.status(400).json({ error: "This coupon has expired" });
+      return;
+    }
+    if (coupon.vendorId && (!vendorIds || !vendorIds.includes(coupon.vendorId))) {
+      res.status(400).json({ error: "This coupon does not apply to items in your cart" });
+      return;
+    }
+    res.json(coupon);
+  } catch (err) {
+    console.error("Error validating coupon:", err);
+    res.status(500).json({ error: "Failed to validate coupon" });
+  }
+});
+var catalog_default = router5;
+
+// src/routes/orders.ts
+var import_express6 = __toESM(require_express2(), 1);
+import { randomUUID as randomUUID3 } from "crypto";
+var router6 = (0, import_express6.Router)();
+var DEFAULT_COMMISSION_RATE = 10;
+async function getPlatformCommissionRate() {
+  const [row] = await db.select().from(siteSettingsTable).where(eq(siteSettingsTable.key, "commission_rate"));
+  const parsed = row ? Number(row.value) : NaN;
+  return Number.isFinite(parsed) ? parsed : DEFAULT_COMMISSION_RATE;
+}
+router6.post("/orders", optionalCustomer, async (req, res) => {
+  try {
+    const { items, customerName, customerPhone, customerAddress, couponCode } = req.body;
+    if (!items || items.length === 0) {
+      res.status(400).json({ error: "Cart is empty" });
+      return;
+    }
+    if (!customerName || !customerPhone) {
+      res.status(400).json({ error: "customerName and customerPhone are required" });
+      return;
+    }
+    const productIds = items.map((i) => i.productId);
+    const products = await db.select().from(productsTable).where(inArray(productsTable.id, productIds));
+    if (products.length !== new Set(productIds).size) {
+      res.status(400).json({ error: "One or more products could not be found" });
+      return;
+    }
+    const vendorIds = [...new Set(products.map((p) => p.vendorId))];
+    const vendors = await db.select().from(vendorsTable).where(inArray(vendorsTable.id, vendorIds));
+    const vendorById = new Map(vendors.map((v) => [v.id, v]));
+    const platformRate = await getPlatformCommissionRate();
+    let coupon;
+    if (couponCode) {
+      const [row] = await db.select().from(couponsTable).where(eq(couponsTable.code, couponCode.toUpperCase()));
+      if (!row || !row.active || row.expiresAt && new Date(row.expiresAt) < /* @__PURE__ */ new Date()) {
+        res.status(400).json({ error: "Invalid or expired coupon code" });
+        return;
+      }
+      if (row.vendorId && !vendorIds.includes(row.vendorId)) {
+        res.status(400).json({ error: "This coupon does not apply to items in your cart" });
+        return;
+      }
+      coupon = row;
+    }
+    let subtotal = 0;
+    const lineItems = [];
+    for (const item of items) {
+      const product = products.find((p) => p.id === item.productId);
+      if (item.quantity < 1) {
+        res.status(400).json({ error: `Invalid quantity for ${product.name}` });
+        return;
+      }
+      if (product.stock < item.quantity) {
+        res.status(400).json({ error: `Not enough stock for ${product.name}` });
+        return;
+      }
+      const unitPrice = product.salePrice ?? product.price;
+      const lineTotal = unitPrice * item.quantity;
+      subtotal += lineTotal;
+      const vendor = vendorById.get(product.vendorId);
+      const commissionRate = vendor?.commissionRate ?? platformRate;
+      const applyLineDiscount = coupon && (!coupon.vendorId || coupon.vendorId === product.vendorId);
+      const lineAfterDiscount = applyLineDiscount ? coupon.discountType === "percent" ? lineTotal * (1 - coupon.discountValue / 100) : Math.max(0, lineTotal - coupon.discountValue) : lineTotal;
+      const commissionAmount = lineAfterDiscount * commissionRate / 100;
+      lineItems.push({
+        productId: product.id,
+        vendorId: product.vendorId,
+        productName: product.name,
+        quantity: item.quantity,
+        unitPrice,
+        lineTotal,
+        commissionRate,
+        commissionAmount
+      });
+    }
+    const discountTotal = coupon ? lineItems.reduce((sum, li) => {
+      const applies = !coupon.vendorId || coupon.vendorId === li.vendorId;
+      if (!applies) return sum;
+      return sum + (coupon.discountType === "percent" ? li.lineTotal * (coupon.discountValue / 100) : Math.min(li.lineTotal, coupon.discountValue));
+    }, 0) : 0;
+    const total = Math.max(0, subtotal - discountTotal);
+    const commissionTotal = lineItems.reduce((sum, li) => sum + li.commissionAmount, 0);
+    const orderId = randomUUID3();
+    const [order] = await db.insert(ordersTable).values({
+      id: orderId,
+      customerId: req.customerId ?? null,
+      customerName,
+      customerPhone,
+      customerAddress: customerAddress ?? null,
+      status: "pending",
+      subtotal,
+      discountTotal,
+      commissionTotal,
+      total,
+      couponCode: coupon?.code ?? null
+    }).returning();
+    await db.insert(orderItemsTable).values(
+      lineItems.map((li) => ({
+        id: randomUUID3(),
+        orderId,
+        productId: li.productId,
+        vendorId: li.vendorId,
+        productName: li.productName,
+        quantity: li.quantity,
+        unitPrice: li.unitPrice,
+        lineTotal: li.lineTotal,
+        commissionRate: li.commissionRate,
+        commissionAmount: li.commissionAmount
+      }))
+    );
+    for (const item of items) {
+      await db.update(productsTable).set({ stock: sql`${productsTable.stock} - ${item.quantity}` }).where(eq(productsTable.id, item.productId));
+    }
+    res.status(201).json({ ...order, items: lineItems });
+  } catch (err) {
+    console.error("Error creating order:", err);
+    res.status(500).json({ error: "Failed to place order" });
+  }
+});
+router6.get("/orders/:id", async (req, res) => {
+  try {
+    const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, req.params.id));
+    if (!order) {
+      res.status(404).json({ error: "Order not found" });
+      return;
+    }
+    const items = await db.select().from(orderItemsTable).where(eq(orderItemsTable.orderId, order.id));
+    res.json({ ...order, items });
+  } catch (err) {
+    console.error("Error fetching order:", err);
+    res.status(500).json({ error: "Failed to fetch order" });
+  }
+});
+var orders_default = router6;
+
+// src/routes/vendor-auth.ts
+var import_express7 = __toESM(require_express2(), 1);
+import { randomUUID as randomUUID4 } from "crypto";
+var router7 = (0, import_express7.Router)();
+var BCRYPT_ROUNDS2 = 12;
+var loginLimiter2 = rate_limit_default({
+  windowMs: 15 * 60 * 1e3,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many login attempts. Please try again in 15 minutes." },
+  skipSuccessfulRequests: true
+});
+function publicVendor2(v) {
+  const { passwordHash, ...rest } = v;
+  return rest;
+}
+router7.post("/vendors/register", async (req, res) => {
+  try {
+    const { name, email: email3, password, phone, description } = req.body;
+    if (!name || !email3 || !password) {
+      res.status(400).json({ error: "name, email and password are required" });
+      return;
+    }
+    if (password.length < 6) {
+      res.status(400).json({ error: "Password must be at least 6 characters" });
+      return;
+    }
+    const [existing] = await db.select({ id: vendorsTable.id }).from(vendorsTable).where(eq(vendorsTable.email, email3));
+    if (existing) {
+      res.status(409).json({ error: "An account with this email already exists" });
+      return;
+    }
+    const slug = await makeUniqueSlug(name, async (candidate) => {
+      const [row] = await db.select({ id: vendorsTable.id }).from(vendorsTable).where(eq(vendorsTable.slug, candidate));
+      return !!row;
+    });
+    const passwordHash = await bcryptjs_default.hash(password, BCRYPT_ROUNDS2);
+    const [vendor] = await db.insert(vendorsTable).values({
+      id: randomUUID4(),
+      slug,
+      name,
+      email: email3,
+      passwordHash,
+      phone: phone ?? null,
+      description: description ?? null,
+      status: "pending"
+    }).returning();
+    res.status(201).json({
+      vendor: publicVendor2(vendor),
+      message: "Registration received. Your store will be reviewed by the marketplace team before it goes live."
+    });
+  } catch (err) {
+    console.error("Error registering vendor:", err);
+    res.status(500).json({ error: "Failed to register" });
+  }
+});
+router7.post("/vendors/login", loginLimiter2, async (req, res) => {
+  try {
+    const { email: email3, password } = req.body;
+    if (!email3 || !password) {
+      res.status(400).json({ error: "email and password are required" });
+      return;
+    }
+    const [vendor] = await db.select().from(vendorsTable).where(eq(vendorsTable.email, email3));
+    if (!vendor || !await bcryptjs_default.compare(password, vendor.passwordHash)) {
+      res.status(401).json({ error: "Invalid email or password" });
+      return;
+    }
+    const token = signVendorToken(vendor.id);
+    res.json({ token, vendor: publicVendor2(vendor) });
+  } catch (err) {
+    console.error("Error logging in vendor:", err);
+    res.status(500).json({ error: "Failed to login" });
+  }
+});
+router7.get("/vendors/me", requireVendor, async (req, res) => {
+  try {
+    const [vendor] = await db.select().from(vendorsTable).where(eq(vendorsTable.id, req.vendorId));
+    if (!vendor) {
+      res.status(404).json({ error: "Vendor not found" });
+      return;
+    }
+    res.json(publicVendor2(vendor));
+  } catch (err) {
+    console.error("Error fetching vendor profile:", err);
+    res.status(500).json({ error: "Failed to fetch profile" });
+  }
+});
+router7.put("/vendors/me", requireVendor, async (req, res) => {
+  try {
+    const body = req.body;
+    const updates = {};
+    if (body.name !== void 0) updates.name = body.name;
+    if (body.phone !== void 0) updates.phone = body.phone || null;
+    if (body.logoUrl !== void 0) updates.logoUrl = body.logoUrl || null;
+    if (body.bannerUrl !== void 0) updates.bannerUrl = body.bannerUrl || null;
+    if (body.description !== void 0) updates.description = body.description || null;
+    const [vendor] = await db.update(vendorsTable).set(updates).where(eq(vendorsTable.id, req.vendorId)).returning();
+    if (!vendor) {
+      res.status(404).json({ error: "Vendor not found" });
+      return;
+    }
+    res.json(publicVendor2(vendor));
+  } catch (err) {
+    console.error("Error updating vendor profile:", err);
+    res.status(500).json({ error: "Failed to update profile" });
+  }
+});
+var vendor_auth_default = router7;
+
+// src/routes/vendor-dashboard.ts
+var import_express8 = __toESM(require_express2(), 1);
+import { randomUUID as randomUUID5 } from "crypto";
+var router8 = (0, import_express8.Router)();
+router8.get("/vendors/me/products", requireVendor, async (req, res) => {
+  try {
+    const products = await db.select().from(productsTable).where(eq(productsTable.vendorId, req.vendorId)).orderBy(desc(productsTable.createdAt));
+    res.json(products);
+  } catch (err) {
+    console.error("Error fetching vendor products:", err);
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
+});
+router8.post("/vendors/me/products", requireVendor, async (req, res) => {
+  try {
+    const body = req.body;
+    if (!body.name || typeof body.price !== "number") {
+      res.status(400).json({ error: "name and price are required" });
+      return;
+    }
+    const slug = await makeUniqueSlug(body.name, async (candidate) => {
+      const [row] = await db.select({ id: productsTable.id }).from(productsTable).where(eq(productsTable.slug, candidate));
+      return !!row;
+    });
+    const [product] = await db.insert(productsTable).values({
+      id: randomUUID5(),
+      vendorId: req.vendorId,
+      slug,
+      sku: body.sku ?? null,
+      barcode: body.barcode ?? null,
+      brand: body.brand ?? null,
+      categoryId: body.categoryId ?? null,
+      species: body.species ?? null,
+      name: body.name,
+      description: body.description ?? null,
+      ingredients: body.ingredients ?? null,
+      images: body.images && body.images.length > 0 ? body.images : null,
+      price: body.price,
+      salePrice: body.salePrice ?? null,
+      stock: body.stock ?? 0,
+      weight: body.weight ?? null,
+      expirationDate: body.expirationDate ?? null,
+      status: "active"
+    }).returning();
+    res.status(201).json(product);
+  } catch (err) {
+    console.error("Error creating product:", err);
+    res.status(500).json({ error: "Failed to create product" });
+  }
+});
+router8.put("/vendors/me/products/:id", requireVendor, async (req, res) => {
+  try {
+    const body = req.body;
+    const updates = { updatedAt: /* @__PURE__ */ new Date() };
+    for (const key of [
+      "name",
+      "description",
+      "ingredients",
+      "sku",
+      "barcode",
+      "brand",
+      "categoryId",
+      "species",
+      "price",
+      "salePrice",
+      "stock",
+      "weight",
+      "expirationDate",
+      "status"
+    ]) {
+      if (body[key] !== void 0) updates[key] = body[key];
+    }
+    if (body.images !== void 0) updates.images = body.images.length > 0 ? body.images : null;
+    const [product] = await db.update(productsTable).set(updates).where(and(eq(productsTable.id, req.params.id), eq(productsTable.vendorId, req.vendorId))).returning();
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+      return;
+    }
+    res.json(product);
+  } catch (err) {
+    console.error("Error updating product:", err);
+    res.status(500).json({ error: "Failed to update product" });
+  }
+});
+router8.delete("/vendors/me/products/:id", requireVendor, async (req, res) => {
+  try {
+    const [product] = await db.delete(productsTable).where(and(eq(productsTable.id, req.params.id), eq(productsTable.vendorId, req.vendorId))).returning();
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+      return;
+    }
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Error deleting product:", err);
+    res.status(500).json({ error: "Failed to delete product" });
+  }
+});
+router8.get("/vendors/me/orders", requireVendor, async (req, res) => {
+  try {
+    const items = await db.select().from(orderItemsTable).where(eq(orderItemsTable.vendorId, req.vendorId)).orderBy(desc(orderItemsTable.id));
+    if (items.length === 0) {
+      res.json([]);
+      return;
+    }
+    const orderIds = [...new Set(items.map((i) => i.orderId))];
+    const orders = await db.select().from(ordersTable).where(inArray(ordersTable.id, orderIds));
+    const orderById = new Map(orders.map((o) => [o.id, o]));
+    res.json(
+      orders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((order) => ({
+        id: order.id,
+        customerName: order.customerName,
+        customerPhone: order.customerPhone,
+        status: order.status,
+        createdAt: order.createdAt,
+        items: items.filter((i) => i.orderId === order.id)
+      }))
+    );
+  } catch (err) {
+    console.error("Error fetching vendor orders:", err);
+    res.status(500).json({ error: "Failed to fetch orders" });
+  }
+});
+router8.put("/vendors/me/orders/:id/status", requireVendor, async (req, res) => {
+  try {
+    const { status } = req.body;
+    const allowed = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
+    if (!status || !allowed.includes(status)) {
+      res.status(400).json({ error: `status must be one of ${allowed.join(", ")}` });
+      return;
+    }
+    const [ownsOrder] = await db.select({ id: orderItemsTable.id }).from(orderItemsTable).where(and(eq(orderItemsTable.orderId, req.params.id), eq(orderItemsTable.vendorId, req.vendorId)));
+    if (!ownsOrder) {
+      res.status(404).json({ error: "Order not found" });
+      return;
+    }
+    const [order] = await db.update(ordersTable).set({ status }).where(eq(ordersTable.id, req.params.id)).returning();
+    res.json(order);
+  } catch (err) {
+    console.error("Error updating order status:", err);
+    res.status(500).json({ error: "Failed to update order status" });
+  }
+});
+router8.get("/vendors/me/coupons", requireVendor, async (req, res) => {
+  const coupons = await db.select().from(couponsTable).where(eq(couponsTable.vendorId, req.vendorId));
+  res.json(coupons);
+});
+router8.post("/vendors/me/coupons", requireVendor, async (req, res) => {
+  try {
+    const { code, discountType, discountValue, expiresAt } = req.body;
+    if (!code || !discountType || typeof discountValue !== "number") {
+      res.status(400).json({ error: "code, discountType and discountValue are required" });
+      return;
+    }
+    if (!["percent", "fixed"].includes(discountType)) {
+      res.status(400).json({ error: "discountType must be percent or fixed" });
+      return;
+    }
+    const [coupon] = await db.insert(couponsTable).values({
+      id: randomUUID5(),
+      vendorId: req.vendorId,
+      code: code.toUpperCase(),
+      discountType,
+      discountValue,
+      expiresAt: expiresAt ? new Date(expiresAt) : null,
+      active: true
+    }).returning();
+    res.status(201).json(coupon);
+  } catch (err) {
+    console.error("Error creating coupon:", err);
+    res.status(500).json({ error: "Failed to create coupon" });
+  }
+});
+router8.put("/vendors/me/coupons/:id", requireVendor, async (req, res) => {
+  try {
+    const { active, discountValue, expiresAt } = req.body;
+    const updates = {};
+    if (active !== void 0) updates.active = active;
+    if (discountValue !== void 0) updates.discountValue = discountValue;
+    if (expiresAt !== void 0) updates.expiresAt = expiresAt ? new Date(expiresAt) : null;
+    const [coupon] = await db.update(couponsTable).set(updates).where(and(eq(couponsTable.id, req.params.id), eq(couponsTable.vendorId, req.vendorId))).returning();
+    if (!coupon) {
+      res.status(404).json({ error: "Coupon not found" });
+      return;
+    }
+    res.json(coupon);
+  } catch (err) {
+    console.error("Error updating coupon:", err);
+    res.status(500).json({ error: "Failed to update coupon" });
+  }
+});
+router8.delete("/vendors/me/coupons/:id", requireVendor, async (req, res) => {
+  try {
+    await db.delete(couponsTable).where(and(eq(couponsTable.id, req.params.id), eq(couponsTable.vendorId, req.vendorId)));
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Error deleting coupon:", err);
+    res.status(500).json({ error: "Failed to delete coupon" });
+  }
+});
+router8.get("/vendors/me/analytics", requireVendor, async (req, res) => {
+  try {
+    const items = await db.select().from(orderItemsTable).where(eq(orderItemsTable.vendorId, req.vendorId));
+    const [productStats] = await db.select({ total: sql`count(*)`, active: sql`count(*) filter (where ${productsTable.status} = 'active')` }).from(productsTable).where(eq(productsTable.vendorId, req.vendorId));
+    const revenue = items.reduce((sum, i) => sum + i.lineTotal, 0);
+    const commissionPaid = items.reduce((sum, i) => sum + i.commissionAmount, 0);
+    const unitsSold = items.reduce((sum, i) => sum + i.quantity, 0);
+    res.json({
+      revenue,
+      netRevenue: revenue - commissionPaid,
+      commissionPaid,
+      unitsSold,
+      orderLineCount: items.length,
+      totalProducts: Number(productStats?.total ?? 0),
+      activeProducts: Number(productStats?.active ?? 0)
+    });
+  } catch (err) {
+    console.error("Error fetching vendor analytics:", err);
+    res.status(500).json({ error: "Failed to fetch analytics" });
+  }
+});
+var vendor_dashboard_default = router8;
+
+// src/routes/customer-auth.ts
+var import_express9 = __toESM(require_express2(), 1);
+import { randomUUID as randomUUID6 } from "crypto";
+var router9 = (0, import_express9.Router)();
+var BCRYPT_ROUNDS3 = 12;
+var loginLimiter3 = rate_limit_default({
+  windowMs: 15 * 60 * 1e3,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many login attempts. Please try again in 15 minutes." },
+  skipSuccessfulRequests: true
+});
+function publicCustomer(c) {
+  const { passwordHash, ...rest } = c;
+  return rest;
+}
+router9.post("/customers/register", async (req, res) => {
+  try {
+    const { name, email: email3, password, phone } = req.body;
+    if (!name || !email3 || !password) {
+      res.status(400).json({ error: "name, email and password are required" });
+      return;
+    }
+    if (password.length < 6) {
+      res.status(400).json({ error: "Password must be at least 6 characters" });
+      return;
+    }
+    const [existing] = await db.select({ id: customersTable.id }).from(customersTable).where(eq(customersTable.email, email3));
+    if (existing) {
+      res.status(409).json({ error: "An account with this email already exists" });
+      return;
+    }
+    const passwordHash = await bcryptjs_default.hash(password, BCRYPT_ROUNDS3);
+    const [customer] = await db.insert(customersTable).values({ id: randomUUID6(), name, email: email3, passwordHash, phone: phone ?? null }).returning();
+    const token = signCustomerToken(customer.id);
+    res.status(201).json({ token, customer: publicCustomer(customer) });
+  } catch (err) {
+    console.error("Error registering customer:", err);
+    res.status(500).json({ error: "Failed to register" });
+  }
+});
+router9.post("/customers/login", loginLimiter3, async (req, res) => {
+  try {
+    const { email: email3, password } = req.body;
+    if (!email3 || !password) {
+      res.status(400).json({ error: "email and password are required" });
+      return;
+    }
+    const [customer] = await db.select().from(customersTable).where(eq(customersTable.email, email3));
+    if (!customer || !await bcryptjs_default.compare(password, customer.passwordHash)) {
+      res.status(401).json({ error: "Invalid email or password" });
+      return;
+    }
+    const token = signCustomerToken(customer.id);
+    res.json({ token, customer: publicCustomer(customer) });
+  } catch (err) {
+    console.error("Error logging in customer:", err);
+    res.status(500).json({ error: "Failed to login" });
+  }
+});
+router9.get("/customers/me", requireCustomer, async (req, res) => {
+  const [customer] = await db.select().from(customersTable).where(eq(customersTable.id, req.customerId));
+  if (!customer) {
+    res.status(404).json({ error: "Customer not found" });
+    return;
+  }
+  res.json(publicCustomer(customer));
+});
+router9.get("/customers/me/orders", requireCustomer, async (req, res) => {
+  try {
+    const orders = await db.select().from(ordersTable).where(eq(ordersTable.customerId, req.customerId)).orderBy(desc(ordersTable.createdAt));
+    if (orders.length === 0) {
+      res.json([]);
+      return;
+    }
+    const items = await db.select().from(orderItemsTable).where(inArray(orderItemsTable.orderId, orders.map((o) => o.id)));
+    res.json(
+      orders.map((order) => ({
+        ...order,
+        items: items.filter((i) => i.orderId === order.id)
+      }))
+    );
+  } catch (err) {
+    console.error("Error fetching customer orders:", err);
+    res.status(500).json({ error: "Failed to fetch orders" });
+  }
+});
+router9.get("/customers/me/wishlist", requireCustomer, async (req, res) => {
+  try {
+    const rows = await db.select().from(wishlistTable).where(eq(wishlistTable.customerId, req.customerId));
+    if (rows.length === 0) {
+      res.json([]);
+      return;
+    }
+    const products = await db.select().from(productsTable).where(inArray(productsTable.id, rows.map((r) => r.productId)));
+    res.json(products);
+  } catch (err) {
+    console.error("Error fetching wishlist:", err);
+    res.status(500).json({ error: "Failed to fetch wishlist" });
+  }
+});
+router9.post("/customers/me/wishlist", requireCustomer, async (req, res) => {
+  try {
+    const { productId } = req.body;
+    if (!productId) {
+      res.status(400).json({ error: "productId is required" });
+      return;
+    }
+    const [existing] = await db.select().from(wishlistTable).where(and(eq(wishlistTable.customerId, req.customerId), eq(wishlistTable.productId, productId)));
+    if (existing) {
+      res.json({ success: true });
+      return;
+    }
+    await db.insert(wishlistTable).values({ id: randomUUID6(), customerId: req.customerId, productId });
+    res.status(201).json({ success: true });
+  } catch (err) {
+    console.error("Error adding to wishlist:", err);
+    res.status(500).json({ error: "Failed to add to wishlist" });
+  }
+});
+router9.delete("/customers/me/wishlist/:productId", requireCustomer, async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    await db.delete(wishlistTable).where(and(eq(wishlistTable.customerId, req.customerId), eq(wishlistTable.productId, productId)));
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Error removing from wishlist:", err);
+    res.status(500).json({ error: "Failed to remove from wishlist" });
+  }
+});
+var customer_auth_default = router9;
+
+// src/routes/admin-marketplace.ts
+var import_express10 = __toESM(require_express2(), 1);
+import { randomUUID as randomUUID7 } from "crypto";
+var router10 = (0, import_express10.Router)();
+function publicVendor3(v) {
+  const { passwordHash, ...rest } = v;
+  return rest;
+}
+router10.get("/admin/vendors", requireAdmin, async (req, res) => {
+  try {
+    const { status } = req.query;
+    const vendors = status ? await db.select().from(vendorsTable).where(eq(vendorsTable.status, status)).orderBy(desc(vendorsTable.createdAt)) : await db.select().from(vendorsTable).orderBy(desc(vendorsTable.createdAt));
+    res.json(vendors.map(publicVendor3));
+  } catch (err) {
+    console.error("Error fetching vendors:", err);
+    res.status(500).json({ error: "Failed to fetch vendors" });
+  }
+});
+router10.put("/admin/vendors/:id/status", requireAdmin, async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!status || !["pending", "approved", "rejected"].includes(status)) {
+      res.status(400).json({ error: "status must be pending, approved or rejected" });
+      return;
+    }
+    const [vendor] = await db.update(vendorsTable).set({ status }).where(eq(vendorsTable.id, req.params.id)).returning();
+    if (!vendor) {
+      res.status(404).json({ error: "Vendor not found" });
+      return;
+    }
+    res.json(publicVendor3(vendor));
+  } catch (err) {
+    console.error("Error updating vendor status:", err);
+    res.status(500).json({ error: "Failed to update vendor status" });
+  }
+});
+router10.put("/admin/vendors/:id/commission", requireAdmin, async (req, res) => {
+  try {
+    const { commissionRate } = req.body;
+    const [vendor] = await db.update(vendorsTable).set({ commissionRate: commissionRate ?? null }).where(eq(vendorsTable.id, req.params.id)).returning();
+    if (!vendor) {
+      res.status(404).json({ error: "Vendor not found" });
+      return;
+    }
+    res.json(publicVendor3(vendor));
+  } catch (err) {
+    console.error("Error updating commission rate:", err);
+    res.status(500).json({ error: "Failed to update commission rate" });
+  }
+});
+router10.get("/admin/commission-rate", requireAdmin, async (_req, res) => {
+  const [row] = await db.select().from(siteSettingsTable).where(eq(siteSettingsTable.key, "commission_rate"));
+  res.json({ commissionRate: row ? Number(row.value) : 10 });
+});
+router10.put("/admin/commission-rate", requireAdmin, async (req, res) => {
+  try {
+    const { commissionRate } = req.body;
+    if (typeof commissionRate !== "number" || commissionRate < 0 || commissionRate > 100) {
+      res.status(400).json({ error: "commissionRate must be a number between 0 and 100" });
+      return;
+    }
+    await db.insert(siteSettingsTable).values({ key: "commission_rate", value: String(commissionRate) }).onConflictDoUpdate({ target: siteSettingsTable.key, set: { value: String(commissionRate), updatedAt: sql`now()` } });
+    res.json({ commissionRate });
+  } catch (err) {
+    console.error("Error updating commission rate:", err);
+    res.status(500).json({ error: "Failed to update commission rate" });
+  }
+});
+router10.get("/admin/products", requireAdmin, async (_req, res) => {
+  const products = await db.select().from(productsTable).orderBy(desc(productsTable.createdAt));
+  res.json(products);
+});
+router10.post("/admin/products", requireAdmin, async (req, res) => {
+  try {
+    const body = req.body;
+    if (!body.vendorId || !body.name || typeof body.price !== "number") {
+      res.status(400).json({ error: "vendorId, name and price are required" });
+      return;
+    }
+    const [vendor] = await db.select({ id: vendorsTable.id }).from(vendorsTable).where(eq(vendorsTable.id, body.vendorId));
+    if (!vendor) {
+      res.status(400).json({ error: "Vendor not found" });
+      return;
+    }
+    const slug = await makeUniqueSlug(body.name, async (candidate) => {
+      const [row] = await db.select({ id: productsTable.id }).from(productsTable).where(eq(productsTable.slug, candidate));
+      return !!row;
+    });
+    const [product] = await db.insert(productsTable).values({
+      id: randomUUID7(),
+      vendorId: body.vendorId,
+      slug,
+      sku: body.sku ?? null,
+      barcode: body.barcode ?? null,
+      brand: body.brand ?? null,
+      categoryId: body.categoryId ?? null,
+      species: body.species ?? null,
+      name: body.name,
+      description: body.description ?? null,
+      ingredients: body.ingredients ?? null,
+      images: body.images && body.images.length > 0 ? body.images : null,
+      price: body.price,
+      salePrice: body.salePrice ?? null,
+      stock: body.stock ?? 0,
+      weight: body.weight ?? null,
+      expirationDate: body.expirationDate ?? null,
+      status: "active"
+    }).returning();
+    res.status(201).json(product);
+  } catch (err) {
+    console.error("Error creating product:", err);
+    res.status(500).json({ error: "Failed to create product" });
+  }
+});
+router10.put("/admin/products/:id", requireAdmin, async (req, res) => {
+  try {
+    const body = req.body;
+    const updates = { updatedAt: /* @__PURE__ */ new Date() };
+    for (const key of [
+      "vendorId",
+      "name",
+      "description",
+      "ingredients",
+      "sku",
+      "barcode",
+      "brand",
+      "categoryId",
+      "species",
+      "price",
+      "salePrice",
+      "stock",
+      "weight",
+      "expirationDate",
+      "status",
+      "images"
+    ]) {
+      if (body[key] !== void 0) updates[key] = body[key];
+    }
+    const [product] = await db.update(productsTable).set(updates).where(eq(productsTable.id, req.params.id)).returning();
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+      return;
+    }
+    res.json(product);
+  } catch (err) {
+    console.error("Error updating product:", err);
+    res.status(500).json({ error: "Failed to update product" });
+  }
+});
+router10.delete("/admin/products/:id", requireAdmin, async (req, res) => {
+  try {
+    const [product] = await db.delete(productsTable).where(eq(productsTable.id, req.params.id)).returning();
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+      return;
+    }
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Error deleting product:", err);
+    res.status(500).json({ error: "Failed to delete product" });
+  }
+});
+router10.get("/admin/orders", requireAdmin, async (_req, res) => {
+  try {
+    const orders = await db.select().from(ordersTable).orderBy(desc(ordersTable.createdAt));
+    res.json(orders);
+  } catch (err) {
+    console.error("Error fetching orders:", err);
+    res.status(500).json({ error: "Failed to fetch orders" });
+  }
+});
+router10.get("/admin/revenue", requireAdmin, async (_req, res) => {
+  try {
+    const [totals] = await db.select({
+      totalOrders: sql`count(*)`,
+      totalSales: sql`coalesce(sum(${ordersTable.total}), 0)`,
+      totalCommission: sql`coalesce(sum(${ordersTable.commissionTotal}), 0)`
+    }).from(ordersTable);
+    const [vendorCounts] = await db.select({
+      total: sql`count(*)`,
+      pending: sql`count(*) filter (where ${vendorsTable.status} = 'pending')`,
+      approved: sql`count(*) filter (where ${vendorsTable.status} = 'approved')`
+    }).from(vendorsTable);
+    res.json({
+      totalOrders: Number(totals?.totalOrders ?? 0),
+      totalSales: Number(totals?.totalSales ?? 0),
+      totalCommission: Number(totals?.totalCommission ?? 0),
+      vendors: {
+        total: Number(vendorCounts?.total ?? 0),
+        pending: Number(vendorCounts?.pending ?? 0),
+        approved: Number(vendorCounts?.approved ?? 0)
+      }
+    });
+  } catch (err) {
+    console.error("Error fetching revenue:", err);
+    res.status(500).json({ error: "Failed to fetch revenue" });
+  }
+});
+var admin_marketplace_default = router10;
 
 // src/routes/index.ts
-var router6 = (0, import_express6.Router)();
-router6.use(health_default);
-router6.use(admin_default);
-router6.use(upload_default);
-router6.use(products_default);
-router6.use(settings_default);
-var routes_default = router6;
+var router11 = (0, import_express11.Router)();
+router11.use(health_default);
+router11.use(admin_default);
+router11.use(upload_default);
+router11.use(settings_default);
+router11.use(catalog_default);
+router11.use(orders_default);
+router11.use(vendor_auth_default);
+router11.use(vendor_dashboard_default);
+router11.use(customer_auth_default);
+router11.use(admin_marketplace_default);
+var routes_default = router11;
 
 // src/lib/logger.ts
 var import_pino = __toESM(require_pino(), 1);
@@ -82690,7 +83705,7 @@ var logger = (0, import_pino.default)({
 });
 
 // src/app.ts
-var app = (0, import_express7.default)();
+var app = (0, import_express12.default)();
 app.set("trust proxy", 1);
 app.use((0, import_compression.default)());
 app.use(
@@ -82725,13 +83740,13 @@ app.use(
     credentials: true
   })
 );
-app.use(import_express7.default.json({ limit: "50mb" }));
-app.use(import_express7.default.urlencoded({ limit: "50mb", extended: true }));
+app.use(import_express12.default.json({ limit: "50mb" }));
+app.use(import_express12.default.urlencoded({ limit: "50mb", extended: true }));
 app.use("/api", routes_default);
 if (process.env.NODE_ENV === "production") {
   const staticDir = path.join(process.cwd(), "frontend", "dist", "public");
   if (existsSync(staticDir)) {
-    app.use(import_express7.default.static(staticDir));
+    app.use(import_express12.default.static(staticDir));
     app.get("/{*path}", (_req, res) => {
       const indexPath = path.join(staticDir, "index.html");
       if (existsSync(indexPath)) {

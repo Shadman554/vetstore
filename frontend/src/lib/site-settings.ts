@@ -33,14 +33,14 @@ export interface SiteSettings {
 }
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  color1: '#FEC00B',
-  color2: '#01BCF3',
-  color3: '#EE4C9F',
+  color1: '#0B6FB8',
+  color2: '#14B872',
+  color3: '#1AA6A6',
   font: 'default',
   textOverrides: { EN: {}, AR: {}, KU: {} },
 };
 
-const STORAGE_KEY = 'kid-store-site-settings';
+const STORAGE_KEY = 'vetmarket-site-settings';
 
 export function getSiteSettings(): SiteSettings {
   try {

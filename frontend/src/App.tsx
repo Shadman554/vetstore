@@ -6,11 +6,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { I18nProvider } from "@/lib/i18n";
 import { SiteSettingsProvider } from "@/lib/site-settings-context";
+import { CartProvider } from "@/lib/cart";
 import { Navbar } from "@/components/navbar";
 import { MobileHeader } from "@/components/mobile-header";
+import { MobileBottomNav } from "@/components/mobile-bottom-nav";
 import { AdminPinGate } from "@/components/admin-pin-gate";
 
-const Catalog = lazy(() => import("@/pages/catalog"));
 const ProductDetail = lazy(() => import("@/pages/product-detail"));
 const Admin = lazy(() => import("@/pages/admin"));
 const NotFound = lazy(() => import("@/pages/not-found"));
@@ -42,7 +43,6 @@ function Router() {
   return (
     <Suspense fallback={<PageFallback />}>
       <Switch>
-        <Route path="/" component={Catalog} />
         <Route path="/products/:id" component={ProductDetail} />
         <Route path="/admin">
           <AdminPinGate><Admin /></AdminPinGate>
@@ -59,18 +59,21 @@ function App() {
       <SiteSettingsProvider>
         <I18nProvider>
           <QueryClientProvider client={queryClient}>
-            <TooltipProvider>
-              <div className="min-h-screen bg-background flex flex-col font-sans">
-                <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-                  <Navbar />
-                  <MobileHeader />
-                  <main className="flex-1">
-                    <Router />
-                  </main>
-                </WouterRouter>
-              </div>
-              <Toaster />
-            </TooltipProvider>
+            <CartProvider>
+              <TooltipProvider>
+                <div className="min-h-screen bg-background flex flex-col font-sans">
+                  <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+                    <Navbar />
+                    <MobileHeader />
+                    <main className="flex-1 pb-16 md:pb-0">
+                      <Router />
+                    </main>
+                    <MobileBottomNav />
+                  </WouterRouter>
+                </div>
+                <Toaster />
+              </TooltipProvider>
+            </CartProvider>
           </QueryClientProvider>
         </I18nProvider>
       </SiteSettingsProvider>

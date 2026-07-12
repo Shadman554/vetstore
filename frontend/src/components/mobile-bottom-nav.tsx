@@ -1,40 +1,43 @@
 import { Link, useLocation } from "wouter";
-import { Home, Search } from "lucide-react";
-import { useI18n } from "@/lib/i18n";
+import { Home, ShoppingBag, Store, User } from "lucide-react";
 import { useSiteSettings } from "@/lib/use-site-settings";
 
 export function MobileBottomNav() {
-  const [location, setLocation] = useLocation();
-  const { t } = useI18n();
+  const [location] = useLocation();
   const { settings } = useSiteSettings();
-
-  const handleSearchTab = () => {
-    setLocation("/");
-    setTimeout(() => {
-      const input = document.querySelector<HTMLInputElement>("[data-testid='mobile-input-search']");
-      if (input) {
-        input.focus();
-        input.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    }, 100);
-  };
 
   const tabs = [
     {
       type: "link" as const,
       href: "/",
       icon: Home,
-      label: t("nav.catalog"),
+      label: "Home",
       testId: "mobile-tab-home",
       active: location === "/",
     },
     {
-      type: "button" as const,
-      icon: Search,
-      label: t("catalog.search").split("…")[0].split("...")[0].trim() || "Search",
-      testId: "mobile-tab-search",
-      active: false,
-      onClick: handleSearchTab,
+      type: "link" as const,
+      href: "/shop",
+      icon: ShoppingBag,
+      label: "Shop",
+      testId: "mobile-tab-shop",
+      active: location === "/shop",
+    },
+    {
+      type: "link" as const,
+      href: "/vendors",
+      icon: Store,
+      label: "Stores",
+      testId: "mobile-tab-vendors",
+      active: location === "/vendors",
+    },
+    {
+      type: "link" as const,
+      href: "/account",
+      icon: User,
+      label: "Account",
+      testId: "mobile-tab-account",
+      active: location === "/account",
     },
   ];
 
@@ -64,19 +67,6 @@ export function MobileBottomNav() {
               </span>
             </>
           );
-
-          if (tab.type === "button") {
-            return (
-              <button
-                key={tab.testId}
-                onClick={tab.onClick}
-                className="flex-1 flex flex-col items-center justify-center gap-0.5 relative transition-colors"
-                data-testid={tab.testId}
-              >
-                {content}
-              </button>
-            );
-          }
 
           return (
             <Link

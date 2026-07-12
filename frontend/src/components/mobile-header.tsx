@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, ShoppingCart, Stethoscope } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import type { Language } from "@/lib/i18n-core";
 import { useTheme } from "next-themes";
@@ -10,12 +10,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import WawLogo from "@assets/WAW_logo_1781717964078.svg";
 import FlagEN from "@assets/image_1782038673428.png";
 import FlagAR from "@assets/image_1782038640101.png";
 import FlagKU from "@assets/image_1782038656177.png";
 import { useSecretTap } from "@/hooks/use-secret-tap";
 import { useSiteSettings } from "@/lib/use-site-settings";
+import { useCart } from "@/lib/cart";
+import { SITE_NAME } from "@/lib/config";
 
 const FLAG_SRC: Record<Language, string> = { EN: FlagEN, AR: FlagAR, KU: FlagKU };
 
@@ -37,17 +38,35 @@ export function MobileHeader() {
   const { theme, setTheme } = useTheme();
   const handleSecretTap = useSecretTap();
   const { settings } = useSiteSettings();
+  const { itemCount } = useCart();
 
   return (
     <header
       className="md:hidden sticky top-0 z-50 bg-white dark:bg-card flex items-center justify-between px-4 h-14"
       style={{ borderBottom: `4px solid ${settings.color1}` }}
     >
-      <Link href="/" data-testid="mobile-link-home" onClick={handleSecretTap}>
-        <img src={WawLogo} alt="WAW" className="h-8 w-auto" />
+      <Link href="/" className="flex items-center gap-1.5" data-testid="mobile-link-home" onClick={handleSecretTap}>
+        <span className="flex items-center justify-center w-7 h-7 rounded-lg" style={{ background: settings.color1 }}>
+          <Stethoscope className="h-4 w-4 text-white" />
+        </span>
+        <span className="font-display font-extrabold text-base tracking-tight" style={{ color: settings.color1 }}>{SITE_NAME}</span>
       </Link>
 
       <div className="flex items-center gap-1">
+        <Link href="/cart" data-testid="mobile-link-cart" className="relative">
+          <Button variant="ghost" size="icon" className="rounded-full w-9 h-9">
+            <ShoppingCart className="h-4 w-4" />
+            {itemCount > 0 && (
+              <span
+                className="absolute -top-0.5 -right-0.5 flex items-center justify-center min-w-[16px] h-[16px] px-1 rounded-full text-[9px] font-bold text-white"
+                style={{ background: settings.color2 }}
+              >
+                {itemCount}
+              </span>
+            )}
+          </Button>
+        </Link>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full w-9 h-9 flex items-center justify-center" data-testid="mobile-btn-lang">
