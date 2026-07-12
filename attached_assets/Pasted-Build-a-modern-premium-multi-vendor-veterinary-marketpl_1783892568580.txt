@@ -1,0 +1,112 @@
+Build a modern premium multi-vendor veterinary marketplace web application similar to Shopify Marketplace and Amazon Marketplace, specifically designed for veterinary clinics, pet stores, veterinary pharmacies, and pet food distributors.
+
+The platform should allow multiple vendors to create and manage their own stores inside one marketplace.
+
+Main Requirements
+
+• Multi-vendor architecture
+• Separate dashboard for every clinic/store
+• Marketplace owner dashboard
+• Customers can purchase products from multiple vendors
+• Commission-based marketplace
+• Responsive design
+• Fast performance
+• SEO optimized
+
+Vendor Dashboard
+
+- Login
+- Product management
+- Inventory management
+- Discount management
+- Coupon creation
+- Order management
+- Analytics
+- Sales reports
+- Store customization (logo, banner, description)
+- Notifications
+
+Marketplace Admin
+
+- Vendor approval
+- Product approval
+- Commission settings
+- User management
+- Order management
+- Reports
+- Revenue dashboard
+- Category management
+- Banner management
+- Featured vendors
+- Featured products
+- Delivery management
+
+Product Types
+
+- Pet food
+- Veterinary medicines
+- Supplements
+- Accessories
+- Grooming products
+- Veterinary equipment
+- Consumables
+
+Each product should support
+
+- Multiple images
+- Brand
+- SKU
+- Barcode
+- Stock quantity
+- Price
+- Sale price
+- Expiration date
+- Product description
+- Ingredients
+- Weight
+- Product specifications
+
+Customer Features
+
+- Wishlist
+- Reviews
+- Ratings
+- Search
+- Advanced filters
+- Favorite vendors
+- Order tracking
+- Push notifications
+- Coupon support
+- Secure checkout
+
+Search Filters
+
+- Brand
+- Species
+- Category
+- Clinic
+- Price
+- Medicine type
+- Food type
+
+Homepage
+
+- Hero banner
+- Featured vendors
+- Popular products
+- New arrivals
+- Best sellers
+- Special offers
+- Categories
+- Brands
+- Customer reviews
+
+Design
+
+Create a clean, elegant, premium medical-inspired UI using white, blue, and green colors with rounded components, smooth animations, modern typography, and responsive layouts. The experience should feel as polished as Shopify while remaining simple and intuitive.
+
+Architecture
+
+Use a scalable architecture that supports thousands of vendors and hundreds of thousands of products. Build with reusable components, role-based authentication (Admin, Vendor, Customer), secure APIs, image optimization, lazy loading, and a database designed for marketplace operations.
+
+The marketplace owner earns a configurable commission from every successful order while each vendor only has access to their own products, orders, customers, and analytics.
