@@ -11,6 +11,7 @@ channel = "stable-25_05"
 [userenv.shared]
 BASE_PATH = "/"
 JWT_SECRET = "1f0f02dc9c47dac839a6a4b43465d7c3f05dbe66cc4af773a9e4e42565e7372b0ed0c096df4cb569ac404a705f5195196cec2c0c0e1a491c1e6860c31fe14717"
+ADMIN_PIN = "admin1234"
 
 [workflows]
 runButton = "Project"

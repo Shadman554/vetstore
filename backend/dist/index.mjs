@@ -82766,13 +82766,25 @@ router5.get("/products", async (req, res) => {
     if (q) conditions.push(ilike(productsTable.name, `%${q}%`));
     if (minPrice) conditions.push(gte(productsTable.price, Number(minPrice)));
     if (maxPrice) conditions.push(lte(productsTable.price, Number(maxPrice)));
-    let orderBy = desc(productsTable.createdAt);
-    if (sort === "price_asc") orderBy = sql`${productsTable.price} asc`;
-    if (sort === "price_desc") orderBy = sql`${productsTable.price} desc`;
-    if (sort === "name_asc") orderBy = sql`${productsTable.name} asc`;
-    const rows = await db.select({ product: productsTable, vendorName: vendorsTable.name, vendorSlug: vendorsTable.slug }).from(productsTable).innerJoin(vendorsTable, eq(productsTable.vendorId, vendorsTable.id)).where(and(...conditions)).orderBy(orderBy);
+    const rows = await db.select({
+      product: productsTable,
+      vendorName: vendorsTable.name,
+      vendorSlug: vendorsTable.slug,
+      vendorLogoUrl: vendorsTable.logoUrl,
+      avgRating: sql`avg(${reviewsTable.rating})`,
+      reviewCount: sql`count(${reviewsTable.id})`
+    }).from(productsTable).innerJoin(vendorsTable, eq(productsTable.vendorId, vendorsTable.id)).leftJoin(reviewsTable, eq(reviewsTable.productId, productsTable.id)).where(and(...conditions)).groupBy(productsTable.id, vendorsTable.id).orderBy(
+      sort === "price_asc" ? sql`${productsTable.price} asc` : sort === "price_desc" ? sql`${productsTable.price} desc` : sort === "name_asc" ? sql`${productsTable.name} asc` : sort === "rating" ? sql`avg(${reviewsTable.rating}) desc nulls last` : desc(productsTable.createdAt)
+    );
     res.setHeader("Cache-Control", "no-store");
-    res.json(rows.map((r) => ({ ...r.product, vendorName: r.vendorName, vendorSlug: r.vendorSlug })));
+    res.json(rows.map((r) => ({
+      ...r.product,
+      vendorName: r.vendorName,
+      vendorSlug: r.vendorSlug,
+      vendorLogoUrl: r.vendorLogoUrl,
+      avgRating: r.avgRating ? Number(r.avgRating) : null,
+      reviewCount: Number(r.reviewCount) || 0
+    })));
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     if (msg.includes("DATABASE_URL")) {
