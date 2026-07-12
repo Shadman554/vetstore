@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, Redirect } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
@@ -59,6 +59,9 @@ function Router() {
         <Route path="/shop" component={Shop} />
         <Route path="/catalog" component={Catalog} />
         <Route path="/product/:slug" component={ProductDetail} />
+        <Route path="/vendor/register"><Redirect to="/vendors/register" /></Route>
+        <Route path="/vendor/login"><Redirect to="/vendors/login" /></Route>
+        <Route path="/vendor/dashboard"><Redirect to="/vendors/dashboard" /></Route>
         <Route path="/vendors" component={Vendors} />
         <Route path="/vendors/register" component={VendorRegister} />
         <Route path="/vendors/login" component={VendorLogin} />
