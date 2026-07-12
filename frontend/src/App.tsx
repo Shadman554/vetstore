@@ -12,7 +12,17 @@ import { MobileHeader } from "@/components/mobile-header";
 import { MobileBottomNav } from "@/components/mobile-bottom-nav";
 import { AdminPinGate } from "@/components/admin-pin-gate";
 
+const Home = lazy(() => import("@/pages/home"));
+const Shop = lazy(() => import("@/pages/shop"));
+const Catalog = lazy(() => import("@/pages/catalog"));
 const ProductDetail = lazy(() => import("@/pages/product-detail"));
+const Vendors = lazy(() => import("@/pages/vendors"));
+const VendorStorefront = lazy(() => import("@/pages/vendor-storefront"));
+const Cart = lazy(() => import("@/pages/cart"));
+const Checkout = lazy(() => import("@/pages/checkout"));
+const VendorLogin = lazy(() => import("@/pages/vendor-login"));
+const VendorRegister = lazy(() => import("@/pages/vendor-register"));
+const VendorDashboard = lazy(() => import("@/pages/vendor-dashboard"));
 const Admin = lazy(() => import("@/pages/admin"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
@@ -43,7 +53,17 @@ function Router() {
   return (
     <Suspense fallback={<PageFallback />}>
       <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/shop" component={Shop} />
+        <Route path="/catalog" component={Catalog} />
         <Route path="/products/:id" component={ProductDetail} />
+        <Route path="/vendors" component={Vendors} />
+        <Route path="/vendors/register" component={VendorRegister} />
+        <Route path="/vendors/login" component={VendorLogin} />
+        <Route path="/vendors/dashboard" component={VendorDashboard} />
+        <Route path="/vendors/:slug" component={VendorStorefront} />
+        <Route path="/cart" component={Cart} />
+        <Route path="/checkout" component={Checkout} />
         <Route path="/admin">
           <AdminPinGate><Admin /></AdminPinGate>
         </Route>
