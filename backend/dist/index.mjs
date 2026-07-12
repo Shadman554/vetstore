@@ -83649,10 +83649,36 @@ router10.delete("/admin/products/:id", requireAdmin, async (req, res) => {
 router10.get("/admin/orders", requireAdmin, async (_req, res) => {
   try {
     const orders = await db.select().from(ordersTable).orderBy(desc(ordersTable.createdAt));
-    res.json(orders);
+    const allItems = orders.length > 0 ? await db.select().from(orderItemsTable).where(inArray(orderItemsTable.orderId, orders.map((o) => o.id))) : [];
+    const itemsByOrder = /* @__PURE__ */ new Map();
+    for (const item of allItems) {
+      const list = itemsByOrder.get(item.orderId) ?? [];
+      list.push(item);
+      itemsByOrder.set(item.orderId, list);
+    }
+    res.json(orders.map((o) => ({ ...o, items: itemsByOrder.get(o.id) ?? [] })));
   } catch (err) {
     console.error("Error fetching orders:", err);
     res.status(500).json({ error: "Failed to fetch orders" });
+  }
+});
+router10.put("/admin/orders/:id/status", requireAdmin, async (req, res) => {
+  try {
+    const { status } = req.body;
+    const allowed = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
+    if (!status || !allowed.includes(status)) {
+      res.status(400).json({ error: `status must be one of ${allowed.join(", ")}` });
+      return;
+    }
+    const [order] = await db.update(ordersTable).set({ status }).where(eq(ordersTable.id, req.params.id)).returning();
+    if (!order) {
+      res.status(404).json({ error: "Order not found" });
+      return;
+    }
+    res.json(order);
+  } catch (err) {
+    console.error("Error updating order status:", err);
+    res.status(500).json({ error: "Failed to update order status" });
   }
 });
 router10.get("/admin/revenue", requireAdmin, async (_req, res) => {

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { db, vendorsTable, productsTable, ordersTable, orderItemsTable, siteSettingsTable } from "@workspace/db";
-import { eq, desc, sql } from "drizzle-orm";
+import { eq, desc, sql, inArray } from "drizzle-orm";
 import { requireAdmin } from "../lib/auth";
 import { randomUUID } from "crypto";
 import { makeUniqueSlug } from "../lib/slug";
@@ -224,10 +224,43 @@ router.delete("/admin/products/:id", requireAdmin, async (req, res) => {
 router.get("/admin/orders", requireAdmin, async (_req, res) => {
   try {
     const orders = await db.select().from(ordersTable).orderBy(desc(ordersTable.createdAt));
-    res.json(orders);
+    const allItems = orders.length > 0
+      ? await db.select().from(orderItemsTable).where(inArray(orderItemsTable.orderId, orders.map((o) => o.id)))
+      : [];
+    const itemsByOrder = new Map<string, typeof allItems>();
+    for (const item of allItems) {
+      const list = itemsByOrder.get(item.orderId) ?? [];
+      list.push(item);
+      itemsByOrder.set(item.orderId, list);
+    }
+    res.json(orders.map((o) => ({ ...o, items: itemsByOrder.get(o.id) ?? [] })));
   } catch (err) {
     console.error("Error fetching orders:", err);
     res.status(500).json({ error: "Failed to fetch orders" });
+  }
+});
+
+router.put("/admin/orders/:id/status", requireAdmin, async (req, res) => {
+  try {
+    const { status } = req.body as { status?: string };
+    const allowed = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
+    if (!status || !allowed.includes(status)) {
+      res.status(400).json({ error: `status must be one of ${allowed.join(", ")}` });
+      return;
+    }
+    const [order] = await db
+      .update(ordersTable)
+      .set({ status })
+      .where(eq(ordersTable.id, req.params.id as string))
+      .returning();
+    if (!order) {
+      res.status(404).json({ error: "Order not found" });
+      return;
+    }
+    res.json(order);
+  } catch (err) {
+    console.error("Error updating order status:", err);
+    res.status(500).json({ error: "Failed to update order status" });
   }
 });
 

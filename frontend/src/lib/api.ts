@@ -332,6 +332,14 @@ export async function fetchAdminOrders(): Promise<Order[]> {
   return apiFetch<Order[]>("/admin/orders", { headers: adminHeaders() });
 }
 
+export async function updateAdminOrderStatus(orderId: string, status: string): Promise<Order> {
+  return apiFetch<Order>(`/admin/orders/${orderId}/status`, {
+    method: "PUT",
+    headers: adminHeaders(),
+    body: JSON.stringify({ status }),
+  });
+}
+
 export async function fetchAdminRevenue(): Promise<RevenueSummary> {
   return apiFetch<RevenueSummary>("/admin/revenue", { headers: adminHeaders() });
 }

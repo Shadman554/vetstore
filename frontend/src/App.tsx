@@ -24,6 +24,7 @@ const VendorLogin = lazy(() => import("@/pages/vendor-login"));
 const VendorRegister = lazy(() => import("@/pages/vendor-register"));
 const VendorDashboard = lazy(() => import("@/pages/vendor-dashboard"));
 const Admin = lazy(() => import("@/pages/admin"));
+const OrderConfirmation = lazy(() => import("@/pages/order-confirmation"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 const queryClient = new QueryClient({
@@ -64,6 +65,7 @@ function Router() {
         <Route path="/vendors/:slug" component={VendorStorefront} />
         <Route path="/cart" component={Cart} />
         <Route path="/checkout" component={Checkout} />
+        <Route path="/order/:id" component={OrderConfirmation} />
         <Route path="/admin">
           <AdminPinGate><Admin /></AdminPinGate>
         </Route>

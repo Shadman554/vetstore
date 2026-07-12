@@ -14,6 +14,7 @@ import {
   updateAdminProduct,
   deleteAdminProduct,
   fetchAdminOrders,
+  updateAdminOrderStatus,
   fetchAdminRevenue,
   fetchCategories,
   createCategory,
@@ -78,7 +79,14 @@ import {
   X,
   Plus,
   Phone,
+  ChevronDown,
+  ChevronRight,
+  Loader2,
+  MapPin,
+  Clock,
+  Tag,
 } from "lucide-react";
+import type { Order, OrderItem } from "@/lib/types";
 
 const SPECIES_OPTIONS: Species[] = ["dog", "cat", "bird", "farm", "other"];
 
@@ -297,6 +305,179 @@ function ProductFormFields({
           </FormItem>
         )}
       />
+    </div>
+  );
+}
+
+const ORDER_STATUS_COLORS: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
+  confirmed: "bg-blue-100 text-blue-800 border-blue-200",
+  shipped: "bg-purple-100 text-purple-800 border-purple-200",
+  delivered: "bg-green-100 text-green-800 border-green-200",
+  cancelled: "bg-red-100 text-red-800 border-red-200",
+};
+
+const NEXT_ORDER_STATUS: Record<string, string> = {
+  pending: "confirmed",
+  confirmed: "shipped",
+  shipped: "delivered",
+};
+
+const STATUS_ACTIONS: Record<string, string> = {
+  pending: "Confirm",
+  confirmed: "Mark Shipped",
+  shipped: "Mark Delivered",
+};
+
+function AdminOrderRow({ order, onStatusChange }: { order: Order; onStatusChange: () => void }) {
+  const [expanded, setExpanded] = useState(false);
+  const { toast } = useToast();
+  const fmt = (n: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
+
+  const { mutate: updateStatus, isPending } = useMutation({
+    mutationFn: ({ id, status }: { id: string; status: string }) => updateAdminOrderStatus(id, status),
+    onSuccess: () => {
+      onStatusChange();
+      toast({ title: "Order status updated" });
+    },
+    onError: (e: Error) => toast({ title: e.message, variant: "destructive" }),
+  });
+
+  const next = NEXT_ORDER_STATUS[order.status];
+  const canCancel = order.status === "pending" || order.status === "confirmed";
+  const hasDiscount = order.discountTotal > 0;
+
+  return (
+    <Card className="rounded-2xl border-2 shadow-sm overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className="w-full p-5 flex flex-wrap items-center justify-between gap-4 text-left hover:bg-muted/30 transition-colors"
+      >
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-bold text-foreground">{order.customerName}</span>
+            <span className="text-xs text-muted-foreground font-mono">#{order.id.slice(-6).toUpperCase()}</span>
+            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${ORDER_STATUS_COLORS[order.status] ?? ""}`}>
+              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+            </span>
+          </div>
+          <div className="text-xs text-muted-foreground mt-0.5 flex items-center gap-3 flex-wrap">
+            <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{order.customerPhone}</span>
+            <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{new Date(order.createdAt).toLocaleString()}</span>
+            {order.couponCode && <span className="flex items-center gap-1"><Tag className="w-3 h-3" />{order.couponCode}</span>}
+          </div>
+        </div>
+        <div className="flex items-center gap-4 shrink-0">
+          <div className="text-right">
+            <div className="text-xs text-muted-foreground uppercase font-bold">Total</div>
+            <div className="font-black text-lg text-foreground">{fmt(order.total)}</div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs text-muted-foreground uppercase font-bold">Commission</div>
+            <div className="font-bold text-sm text-primary">{fmt(order.commissionTotal)}</div>
+          </div>
+          {expanded
+            ? <ChevronDown className="w-4 h-4 text-muted-foreground" />
+            : <ChevronRight className="w-4 h-4 text-muted-foreground" />}
+        </div>
+      </button>
+
+      {expanded && (
+        <div className="border-t border-border px-5 pb-5 pt-4 space-y-4">
+          {/* Items */}
+          <div>
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Line Items</p>
+            <div className="space-y-2">
+              {(order.items ?? []).map((item: OrderItem) => (
+                <div key={item.id} className="flex items-center justify-between text-sm gap-2">
+                  <div className="flex-1 min-w-0">
+                    <span className="font-medium text-foreground">{item.productName}</span>
+                    <span className="text-muted-foreground ml-1.5">×{item.quantity}</span>
+                  </div>
+                  <div className="flex items-center gap-4 shrink-0 text-right">
+                    <span className="text-foreground font-semibold">{fmt(item.lineTotal)}</span>
+                    <span className="text-xs text-muted-foreground w-20">
+                      Commission {item.commissionRate}% = {fmt(item.commissionAmount)}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Price breakdown + delivery */}
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5 text-sm">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">Price Breakdown</p>
+              <div className="flex justify-between text-muted-foreground">
+                <span>Subtotal</span><span>{fmt(order.subtotal)}</span>
+              </div>
+              {hasDiscount && (
+                <div className="flex justify-between text-green-600 font-semibold">
+                  <span>Discount</span><span>−{fmt(order.discountTotal)}</span>
+                </div>
+              )}
+              <div className="flex justify-between font-bold text-foreground border-t border-border pt-1">
+                <span>Total</span><span>{fmt(order.total)}</span>
+              </div>
+              <div className="flex justify-between text-primary font-semibold">
+                <span>Platform commission</span><span>{fmt(order.commissionTotal)}</span>
+              </div>
+            </div>
+            {order.customerAddress && (
+              <div className="text-sm">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">Delivery Address</p>
+                <p className="flex items-start gap-1.5 text-foreground">
+                  <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-muted-foreground" />
+                  {order.customerAddress}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-2 flex-wrap pt-1">
+            {next && (
+              <Button size="sm" disabled={isPending} onClick={() => updateStatus({ id: order.id, status: next })}>
+                {isPending ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : null}
+                {STATUS_ACTIONS[order.status]}
+              </Button>
+            )}
+            {canCancel && (
+              <Button size="sm" variant="destructive" disabled={isPending} onClick={() => updateStatus({ id: order.id, status: "cancelled" })}>
+                Cancel Order
+              </Button>
+            )}
+            {order.status === "delivered" && (
+              <Badge variant="secondary" className="self-center px-3 py-1">✓ Delivered</Badge>
+            )}
+            {order.status === "cancelled" && (
+              <Badge variant="destructive" className="self-center px-3 py-1">Cancelled</Badge>
+            )}
+          </div>
+        </div>
+      )}
+    </Card>
+  );
+}
+
+function AdminOrdersList({ orders, onStatusChange }: { orders: Order[]; onStatusChange: () => void }) {
+  if (orders.length === 0) {
+    return (
+      <div className="text-center py-16 text-muted-foreground">
+        <Package className="w-10 h-10 mx-auto mb-3 opacity-30" />
+        <p className="font-semibold">No orders yet</p>
+        <p className="text-sm mt-1">Orders will appear here once customers check out.</p>
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-3">
+      <p className="text-sm text-muted-foreground font-medium">{orders.length} total order{orders.length !== 1 ? "s" : ""}</p>
+      {orders.map((o) => (
+        <AdminOrderRow key={o.id} order={o} onStatusChange={onStatusChange} />
+      ))}
     </div>
   );
 }
@@ -738,24 +919,7 @@ export default function Admin() {
         </TabsContent>
 
         <TabsContent value="orders" className="space-y-3">
-          {orders.map((o) => (
-            <Card key={o.id} className="rounded-2xl border-2 shadow-sm">
-              <CardContent className="p-5 flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <div className="font-bold">{o.customerName} <span className="text-xs text-muted-foreground font-mono">#{o.id.slice(0, 8)}</span></div>
-                  <div className="text-xs text-muted-foreground">{o.customerPhone} · {new Date(o.createdAt).toLocaleString()}</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Badge className="capitalize" variant={o.status === "delivered" ? "default" : o.status === "cancelled" ? "destructive" : "secondary"}>{o.status}</Badge>
-                  <div className="text-right">
-                    <div className="text-xs text-muted-foreground uppercase font-bold">Total</div>
-                    <div className="font-black text-lg">${o.total.toFixed(2)}</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-          {orders.length === 0 && <div className="text-center py-16 text-muted-foreground">No orders yet.</div>}
+          <AdminOrdersList orders={orders} onStatusChange={invalidateAdmin} />
         </TabsContent>
 
         <TabsContent value="categories" className="space-y-4">
