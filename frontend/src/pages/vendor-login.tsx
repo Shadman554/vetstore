@@ -111,7 +111,7 @@ export default function VendorLogin() {
           <div className="mt-6 pt-5 border-t border-border text-center text-sm text-muted-foreground">
             Don't have a vendor account?{" "}
             <a
-              href="/vendor/register"
+              href="/vendors/register"
               className="text-primary font-semibold hover:underline"
             >
               Apply to sell

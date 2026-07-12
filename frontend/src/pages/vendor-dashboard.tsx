@@ -30,7 +30,7 @@ export default function VendorDashboard() {
 
   useEffect(() => {
     if (!isVendorLoggedIn()) {
-      navigate("/vendor/login");
+      navigate("/vendors/login");
     }
   }, [navigate]);
 

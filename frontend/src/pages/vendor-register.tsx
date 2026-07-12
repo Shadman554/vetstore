@@ -82,7 +82,7 @@ export default function VendorRegister() {
               </ul>
             </div>
             <a
-              href="/vendor/login"
+              href="/vendors/login"
               className="inline-block mt-6 text-sm text-primary font-semibold hover:underline"
             >
               Back to login
@@ -227,7 +227,7 @@ export default function VendorRegister() {
 
           <div className="mt-6 pt-5 border-t border-border text-center text-sm text-muted-foreground">
             Already have an account?{" "}
-            <a href="/vendor/login" className="text-primary font-semibold hover:underline">
+            <a href="/vendors/login" className="text-primary font-semibold hover:underline">
               Sign in
             </a>
           </div>
