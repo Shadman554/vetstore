@@ -24,6 +24,7 @@ const VendorLogin = lazy(() => import("@/pages/vendor-login"));
 const VendorRegister = lazy(() => import("@/pages/vendor-register"));
 const VendorDashboard = lazy(() => import("@/pages/vendor-dashboard"));
 const Admin = lazy(() => import("@/pages/admin"));
+const Account = lazy(() => import("@/pages/account"));
 const OrderConfirmation = lazy(() => import("@/pages/order-confirmation"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
@@ -63,6 +64,7 @@ function Router() {
         <Route path="/vendors/login" component={VendorLogin} />
         <Route path="/vendors/dashboard" component={VendorDashboard} />
         <Route path="/vendors/:slug" component={VendorStorefront} />
+        <Route path="/account" component={Account} />
         <Route path="/cart" component={Cart} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/order/:id" component={OrderConfirmation} />

@@ -76,7 +76,7 @@ export function Navbar() {
         </div>
 
         <div className={`flex items-center gap-2 md:gap-3 ${isRtl ? 'mr-auto' : 'ml-auto'}`}>
-          <Link href="/vendor/login" className="hidden lg:flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover-elevate px-3 py-2 rounded-lg" data-testid="link-vendor-portal">
+          <Link href="/vendors/login" className="hidden lg:flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover-elevate px-3 py-2 rounded-lg" data-testid="link-vendor-portal">
             <Store className="h-4 w-4" />
             Sell on {SITE_NAME}
           </Link>
