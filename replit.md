@@ -64,6 +64,12 @@ A colorful kids' toy store web app where users browse a product catalog, view pr
 
 _Populate as you build — explicit user instructions worth remembering across sessions._
 
+## Setup status (imported project)
+
+- Project imported from GitHub; dependencies installed via `pnpm install`, DB schema pushed via `pnpm --filter @workspace/db run push`, and demo data seeded via the seed script above. Both workflows (`Start application`, `Start Backend`) run cleanly.
+- `DATABASE_URL`, `ADMIN_PIN`, `JWT_SECRET` are set as secrets. `R2_*` (Cloudflare R2) env vars are NOT set — product image uploads will fail until those are configured; everything else works without them.
+- Note: the site is branded "VetMarket" (a vet/pet supply marketplace) despite the repo/package name "kid-store" — this is the actual product content, not a bug.
+
 ## Gotchas
 
 - `PORT` and `BASE_PATH` must be set explicitly when running dev commands — they are required env vars in `vite.config.ts`
