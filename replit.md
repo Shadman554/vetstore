@@ -10,6 +10,7 @@ A colorful kids' toy store web app where users browse a product catalog, view pr
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
+- `./scripts/node_modules/.bin/tsx lib/db/src/seed.ts` — seed demo categories, vendors, and products (safe to re-run, uses `onConflictDoNothing`)
 - Required env: `DATABASE_URL` — Postgres connection string, `BASE_PATH` — Vite base path (set to `/`)
 
 ## Stack
