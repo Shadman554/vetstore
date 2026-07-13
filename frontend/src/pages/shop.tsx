@@ -123,12 +123,12 @@ export default function Shop() {
           >
             <div className="container mx-auto px-4 py-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
               {/* Category */}
-              <Select value={category} onValueChange={setCategory}>
+              <Select value={category || "all"} onValueChange={(v) => setCategory(v === "all" ? "" : v)}>
                 <SelectTrigger className="rounded-xl text-sm">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Categories</SelectItem>
+                  <SelectItem value="all">All Categories</SelectItem>
                   {categories.map((c) => (
                     <SelectItem key={c.id} value={c.slug}>{c.name}</SelectItem>
                   ))}
@@ -136,12 +136,12 @@ export default function Shop() {
               </Select>
 
               {/* Species */}
-              <Select value={species} onValueChange={setSpecies}>
+              <Select value={species || "all"} onValueChange={(v) => setSpecies(v === "all" ? "" : v)}>
                 <SelectTrigger className="rounded-xl text-sm">
                   <SelectValue placeholder="Species" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Species</SelectItem>
+                  <SelectItem value="all">All Species</SelectItem>
                   {SPECIES_OPTIONS.map((s) => (
                     <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
                   ))}
