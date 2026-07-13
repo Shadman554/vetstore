@@ -1,8 +1,7 @@
 import { memo, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { ShoppingCart, Heart, Star, Package } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Plus, Minus, Star, Package } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/lib/cart";
 import type { Product } from "@/lib/types";
@@ -14,9 +13,8 @@ interface VetProductCardProps {
 }
 
 export const VetProductCard = memo(function VetProductCard({ product, index = 0 }: VetProductCardProps) {
-  const { addToCart } = useCart();
+  const { lines, addToCart, updateQuantity } = useCart();
   const [imgError, setImgError] = useState(false);
-  const [added, setAdded] = useState(false);
 
   const img = product.images?.[0] ?? null;
   const hasDiscount = product.salePrice != null && product.salePrice < product.price;
@@ -25,12 +23,12 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
     ? Math.round(((product.price - product.salePrice!) / product.price) * 100)
     : 0;
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const cartQty = lines.find((l) => l.product.id === product.id)?.quantity ?? 0;
+
+  const stopAnd = (fn: () => void) => (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addToCart(product, 1);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
+    fn();
   };
 
   const inStock = product.stock > 0;
@@ -122,23 +120,40 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
                   </span>
                 )}
               </div>
-              <button
-                onClick={handleAddToCart}
-                disabled={!inStock}
-                className={cn(
-                  "flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-bold transition-all duration-200 shrink-0",
-                  "border border-primary-border",
-                  added
-                    ? "bg-secondary text-secondary-foreground"
-                    : inStock
-                    ? "bg-primary text-primary-foreground hover:opacity-90"
-                    : "bg-muted text-muted-foreground cursor-not-allowed"
-                )}
-                aria-label="Add to cart"
-              >
-                <ShoppingCart className="w-3.5 h-3.5" />
-                <span>{added ? "Added" : "Add"}</span>
-              </button>
+              {cartQty > 0 ? (
+                <div className="flex items-center gap-2 rounded-full bg-primary text-primary-foreground shrink-0 shadow-sm">
+                  <button
+                    onClick={stopAnd(() => updateQuantity(product.id, cartQty - 1))}
+                    className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full hover:bg-white/15 transition-colors"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="w-3.5 h-3.5" />
+                  </button>
+                  <span className="text-xs font-bold min-w-[1ch] text-center tabular-nums">{cartQty}</span>
+                  <button
+                    onClick={stopAnd(() => updateQuantity(product.id, cartQty + 1))}
+                    className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full hover:bg-white/15 transition-colors"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={stopAnd(() => addToCart(product, 1))}
+                  disabled={!inStock}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full text-xs font-bold transition-all duration-200 shrink-0",
+                    inStock
+                      ? "bg-primary text-primary-foreground hover:opacity-90 shadow-sm"
+                      : "bg-muted text-muted-foreground cursor-not-allowed"
+                  )}
+                  aria-label="Add to cart"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Add</span>
+                </button>
+              )}
             </div>
           </div>
         </div>

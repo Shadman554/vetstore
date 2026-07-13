@@ -33,9 +33,9 @@ export interface SiteSettings {
 }
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  color1: '#0B6FB8',
-  color2: '#14B872',
-  color3: '#1AA6A6',
+  color1: '#FF5A00',
+  color2: '#1A1A1A',
+  color3: '#FF5A00',
   font: 'default',
   textOverrides: { EN: {}, AR: {}, KU: {} },
 };

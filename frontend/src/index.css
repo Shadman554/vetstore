@@ -130,7 +130,7 @@
 
   --border: 205 25% 89%;
   --input: 205 25% 89%;
-  --ring: 205 80% 40%;
+  --ring: 21 100% 50%;
 
   --card: 0 0% 100%;
   --card-foreground: 205 45% 14%;
@@ -140,19 +140,19 @@
   --popover-foreground: 205 45% 14%;
   --popover-border: 205 25% 91%;
 
-  /* Veterinary blue as primary */
-  --primary: 205 80% 40%;
+  /* Talabat-style bold orange as primary */
+  --primary: 21 100% 50%;
   --primary-foreground: 0 0% 100%;
 
-  /* Clinical green as secondary */
+  /* Clinical green as secondary (used for success/trust signals) */
   --secondary: 152 76% 39%;
   --secondary-foreground: 0 0% 100%;
 
   --muted: 200 30% 95%;
   --muted-foreground: 205 15% 45%;
 
-  /* Soft teal accent */
-  --accent: 178 60% 40%;
+  /* Deep vet-blue accent for trust/species tags */
+  --accent: 205 70% 38%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 72% 51%;
@@ -161,15 +161,15 @@
   --sidebar: 0 0% 100%;
   --sidebar-foreground: 205 45% 14%;
   --sidebar-border: 205 25% 91%;
-  --sidebar-primary: 205 80% 40%;
+  --sidebar-primary: 21 100% 50%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 200 30% 95%;
   --sidebar-accent-foreground: 205 45% 14%;
-  --sidebar-ring: 205 80% 40%;
+  --sidebar-ring: 21 100% 50%;
 
-  --chart-1: 205 80% 40%;
+  --chart-1: 21 100% 50%;
   --chart-2: 152 76% 39%;
-  --chart-3: 178 60% 40%;
+  --chart-3: 205 70% 38%;
   --chart-4: 35 90% 55%;
   --chart-5: 260 55% 55%;
 
@@ -219,7 +219,7 @@
 
   --border: 205 20% 20%;
   --input: 205 20% 20%;
-  --ring: 205 80% 55%;
+  --ring: 21 100% 56%;
 
   --card: 205 30% 12%;
   --card-foreground: 200 30% 95%;
@@ -228,17 +228,17 @@
   --sidebar: 205 30% 11%;
   --sidebar-foreground: 200 30% 95%;
   --sidebar-border: 205 20% 20%;
-  --sidebar-primary: 205 80% 55%;
+  --sidebar-primary: 21 100% 56%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 205 20% 20%;
   --sidebar-accent-foreground: 200 30% 95%;
-  --sidebar-ring: 205 80% 55%;
+  --sidebar-ring: 21 100% 56%;
 
   --popover: 205 30% 12%;
   --popover-foreground: 200 30% 95%;
   --popover-border: 205 20% 20%;
 
-  --primary: 205 80% 55%;
+  --primary: 21 100% 56%;
   --primary-foreground: 0 0% 100%;
 
   --secondary: 152 70% 42%;
@@ -247,15 +247,15 @@
   --muted: 205 20% 20%;
   --muted-foreground: 205 15% 65%;
 
-  --accent: 178 55% 45%;
+  --accent: 205 65% 50%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 62% 50%;
   --destructive-foreground: 0 0% 100%;
 
-  --chart-1: 205 80% 55%;
+  --chart-1: 21 100% 56%;
   --chart-2: 152 70% 42%;
-  --chart-3: 178 55% 45%;
+  --chart-3: 205 65% 50%;
   --chart-4: 35 85% 58%;
   --chart-5: 260 55% 60%;
 

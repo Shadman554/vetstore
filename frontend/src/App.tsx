@@ -11,6 +11,7 @@ import { Navbar } from "@/components/navbar";
 import { MobileHeader } from "@/components/mobile-header";
 import { MobileBottomNav } from "@/components/mobile-bottom-nav";
 import { AdminPinGate } from "@/components/admin-pin-gate";
+import { StickyCartBar } from "@/components/sticky-cart-bar";
 
 const Home = lazy(() => import("@/pages/home"));
 const Shop = lazy(() => import("@/pages/shop"));
@@ -95,6 +96,7 @@ function App() {
                     <main className="flex-1 pb-16 md:pb-0">
                       <Router />
                     </main>
+                    <StickyCartBar />
                     <MobileBottomNav />
                   </WouterRouter>
                 </div>
