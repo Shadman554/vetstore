@@ -11,8 +11,8 @@ import type { Vendor, Category } from "@/lib/types";
 
 function TrustPillar({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
-    <div className="flex flex-col items-center text-center gap-3 p-6">
-      <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+    <div className="flex flex-col items-center text-center gap-2 p-3 md:p-4">
+      <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
         {icon}
       </div>
       <div>
@@ -94,76 +94,55 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero */}
+      {/* Compact hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent">
         <div className="absolute inset-0 opacity-10"
           style={{ backgroundImage: "radial-gradient(circle at 20% 80%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)", backgroundSize: "60px 60px" }}
         />
-        <div className="relative container mx-auto px-4 py-20 md:py-28 flex flex-col items-center text-center gap-6">
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <Badge className="bg-white/20 text-white border-white/30 text-xs font-semibold mb-2">
-              Trusted by veterinary professionals
-            </Badge>
-          </motion.div>
+        <div className="relative container mx-auto px-4 py-8 md:py-10 flex flex-col items-center text-center gap-3">
           <motion.h1
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-display text-4xl md:text-6xl font-extrabold text-white leading-tight max-w-3xl"
+            transition={{ duration: 0.4 }}
+            className="font-display text-2xl md:text-3xl font-extrabold text-white leading-tight max-w-2xl"
           >
-            The Veterinary Marketplace Built for Pet Health
+            Shop trusted pet food, medicine & accessories
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-white/80 text-lg md:text-xl max-w-xl"
-          >
-            Shop clinician-approved food, medicine, and accessories from licensed veterinary clinics, pet stores, and pharmacies — all in one place.
-          </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-3 mt-2"
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="w-full max-w-xl relative mt-1"
           >
-            <Link href="/shop">
-              <Button size="lg" className="bg-white text-primary font-bold border-0 hover:bg-white/90 px-8 h-12 rounded-xl">
-                Shop Now <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-            <Link href="/vendors">
-              <Button size="lg" variant="outline" className="border-white/40 text-white bg-white/10 font-bold px-8 h-12 rounded-xl hover:bg-white/20">
-                Browse Vendors
-              </Button>
-            </Link>
+            <input
+              type="text"
+              readOnly
+              onFocus={() => (window.location.href = "/shop")}
+              placeholder="Search for food, medicine, accessories..."
+              className="w-full h-12 rounded-xl pl-11 pr-4 text-sm text-foreground bg-white shadow-sm border-0 focus:outline-none focus:ring-2 focus:ring-white/60 cursor-pointer"
+            />
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
           </motion.div>
         </div>
       </section>
 
-      {/* Trust pillars */}
+      {/* Trust pillars - slim strip */}
       <section className="border-b border-border bg-card">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-border">
-            <TrustPillar icon={<ShieldCheck className="w-6 h-6" />} title="Clinician Approved" desc="Every vendor is vetted & licensed" />
-            <TrustPillar icon={<Truck className="w-6 h-6" />} title="Fast Delivery" desc="From local clinics to your door" />
-            <TrustPillar icon={<Award className="w-6 h-6" />} title="Quality Assured" desc="Premium veterinary-grade products" />
-            <TrustPillar icon={<Star className="w-6 h-6" />} title="Trusted Reviews" desc="Real feedback from pet owners" />
+            <TrustPillar icon={<ShieldCheck className="w-5 h-5" />} title="Clinician Approved" desc="Vetted & licensed" />
+            <TrustPillar icon={<Truck className="w-5 h-5" />} title="Fast Delivery" desc="To your door" />
+            <TrustPillar icon={<Award className="w-5 h-5" />} title="Quality Assured" desc="Vet-grade products" />
+            <TrustPillar icon={<Star className="w-5 h-5" />} title="Trusted Reviews" desc="Real pet owner feedback" />
           </div>
         </div>
       </section>
 
       {/* Browse by category */}
       {categories.length > 0 && (
-        <section className="py-14 container mx-auto px-4">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-display text-2xl font-bold text-foreground">Browse by Category</h2>
-            <Link href="/shop">
-              <span className="text-sm text-primary font-semibold hover:underline flex items-center gap-1">
-                All products <ArrowRight className="w-4 h-4" />
-              </span>
-            </Link>
-          </div>
+        <section className="py-6 container mx-auto px-4">
           <div className="flex flex-wrap gap-3">
             {categories.map((cat, i) => (
               <CategoryCard key={cat.id} cat={cat} index={i} />
@@ -172,11 +151,11 @@ export default function Home() {
         </section>
       )}
 
-      {/* Featured products */}
+      {/* Featured products - shown immediately, no long scroll */}
       {featuredProducts.length > 0 && (
-        <section className="py-14 bg-muted/40">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between mb-8">
+        <section className="pb-14 bg-muted/40">
+          <div className="container mx-auto px-4 pt-8">
+            <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="font-display text-2xl font-bold text-foreground">Popular Products</h2>
                 <p className="text-muted-foreground text-sm mt-1">Top picks from our verified vendors</p>
