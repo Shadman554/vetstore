@@ -78,10 +78,10 @@ export default function Shop() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
             <Input
               type="search"
-              placeholder="Search products, brands..."
+              placeholder="Search products..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 rounded-xl"
+              className="pl-9 rounded-xl text-sm h-10"
             />
           </div>
           <Button
@@ -215,9 +215,9 @@ export default function Shop() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="rounded-2xl bg-muted animate-pulse aspect-[3/4]" />
+              <div key={i} className="rounded-2xl bg-muted animate-pulse aspect-[3/1] sm:aspect-[3/4]" />
             ))}
           </div>
         ) : products.length === 0 ? (
@@ -236,7 +236,7 @@ export default function Shop() {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             {products.map((product, i) => (
               <VetProductCard key={product.id} product={product} index={i} />
             ))}

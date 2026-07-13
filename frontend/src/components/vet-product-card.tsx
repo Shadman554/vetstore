@@ -43,9 +43,9 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
       className="h-full"
     >
       <Link href={`/product/${product.slug}`} className="block h-full">
-        <div className="group h-full flex flex-col rounded-2xl border border-border bg-card shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
+        <div className="group h-full flex flex-row sm:flex-col rounded-2xl border border-border bg-card shadow-sm hover:shadow-lg sm:hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
           {/* Image */}
-          <div className="relative overflow-hidden bg-muted aspect-[4/3] shrink-0">
+          <div className="relative overflow-hidden bg-muted shrink-0 w-28 sm:w-full aspect-square sm:aspect-[4/3]">
             {img && !imgError ? (
               <img
                 src={img}
@@ -56,25 +56,25 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-muted-foreground/30">
-                <Package className="w-12 h-12" />
+                <Package className="w-10 h-10 sm:w-12 sm:h-12" />
               </div>
             )}
             {/* Badges */}
-            <div className="absolute top-2 left-2 flex flex-col gap-1">
+            <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 flex flex-col gap-1">
               {hasDiscount && (
-                <Badge className="bg-secondary text-secondary-foreground text-xs font-bold">
+                <Badge className="bg-secondary text-secondary-foreground text-[10px] sm:text-xs font-bold">
                   -{discountPct}%
                 </Badge>
               )}
               {!inStock && (
-                <Badge variant="outline" className="bg-card/90 text-xs font-semibold">
+                <Badge variant="outline" className="bg-card/90 text-[10px] sm:text-xs font-semibold">
                   Out of stock
                 </Badge>
               )}
             </div>
             {/* Rating */}
             {product.avgRating != null && product.avgRating > 0 && (
-              <div className="absolute top-2 right-2 flex items-center gap-1 bg-card/90 backdrop-blur-sm rounded-full px-2 py-0.5 text-xs font-bold text-foreground">
+              <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 flex items-center gap-1 bg-card/90 backdrop-blur-sm rounded-full px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs font-bold text-foreground">
                 <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                 {product.avgRating.toFixed(1)}
               </div>
@@ -82,14 +82,14 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
           </div>
 
           {/* Info */}
-          <div className="flex flex-col flex-1 p-4 gap-2">
+          <div className="flex flex-col flex-1 min-w-0 p-3 sm:p-4 gap-1 sm:gap-2 justify-center sm:justify-start">
             {(product.brand || product.vendorName) && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 min-w-0">
                 {product.brand && (
-                  <span className="text-xs font-semibold text-primary uppercase tracking-wide">{product.brand}</span>
+                  <span className="text-xs font-semibold text-primary uppercase tracking-wide truncate">{product.brand}</span>
                 )}
                 {product.brand && product.vendorName && (
-                  <span className="text-muted-foreground text-xs">·</span>
+                  <span className="text-muted-foreground text-xs shrink-0">·</span>
                 )}
                 {product.vendorName && (
                   <span className="text-xs text-muted-foreground truncate">{product.vendorName}</span>
@@ -111,9 +111,9 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
             )}
 
             {/* Price + Cart */}
-            <div className="flex items-center justify-between gap-2 mt-auto pt-2">
-              <div className="flex flex-col">
-                <span className="text-lg font-bold text-primary">
+            <div className="flex items-center justify-between gap-2 mt-auto pt-1 sm:pt-2">
+              <div className="flex flex-col min-w-0">
+                <span className="text-base sm:text-lg font-bold text-primary truncate">
                   ${displayPrice.toFixed(2)}
                 </span>
                 {hasDiscount && (
@@ -126,7 +126,7 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
                 onClick={handleAddToCart}
                 disabled={!inStock}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all duration-200",
+                  "flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs font-bold transition-all duration-200 shrink-0",
                   "border border-primary-border",
                   added
                     ? "bg-secondary text-secondary-foreground"
@@ -137,7 +137,7 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
                 aria-label="Add to cart"
               >
                 <ShoppingCart className="w-3.5 h-3.5" />
-                {added ? "Added" : "Add"}
+                <span>{added ? "Added" : "Add"}</span>
               </button>
             </div>
           </div>
