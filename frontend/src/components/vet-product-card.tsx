@@ -108,23 +108,25 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
               </span>
             )}
 
-            {/* Price + Cart */}
-            <div className="flex items-center justify-between gap-2 mt-auto pt-1 sm:pt-2">
-              <div className="flex flex-col min-w-0">
-                <span className="text-base sm:text-lg font-bold text-primary truncate">
-                  ${displayPrice.toFixed(2)}
+            {/* Price */}
+            <div className="mt-auto pt-1 sm:pt-2 flex items-baseline gap-2 min-w-0">
+              <span className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight truncate">
+                ${displayPrice.toFixed(2)}
+              </span>
+              {hasDiscount && (
+                <span className="text-xs sm:text-sm text-muted-foreground line-through">
+                  ${product.price.toFixed(2)}
                 </span>
-                {hasDiscount && (
-                  <span className="text-xs text-muted-foreground line-through">
-                    ${product.price.toFixed(2)}
-                  </span>
-                )}
-              </div>
+              )}
+            </div>
+
+            {/* Cart action */}
+            <div className="pt-1.5 sm:pt-2">
               {cartQty > 0 ? (
-                <div className="flex items-center gap-2 rounded-full bg-primary text-primary-foreground shrink-0 shadow-sm">
+                <div className="flex items-center justify-between gap-2 rounded-full bg-primary text-primary-foreground shadow-sm w-full sm:w-auto">
                   <button
                     onClick={stopAnd(() => updateQuantity(product.id, cartQty - 1))}
-                    className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full hover:bg-white/15 transition-colors"
+                    className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/15 transition-colors shrink-0"
                     aria-label="Decrease quantity"
                   >
                     <Minus className="w-3.5 h-3.5" />
@@ -132,7 +134,7 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
                   <span className="text-xs font-bold min-w-[1ch] text-center tabular-nums">{cartQty}</span>
                   <button
                     onClick={stopAnd(() => updateQuantity(product.id, cartQty + 1))}
-                    className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full hover:bg-white/15 transition-colors"
+                    className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/15 transition-colors shrink-0"
                     aria-label="Increase quantity"
                   >
                     <Plus className="w-3.5 h-3.5" />
@@ -143,7 +145,7 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
                   onClick={stopAnd(() => addToCart(product, 1))}
                   disabled={!inStock}
                   className={cn(
-                    "flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full text-xs font-bold transition-all duration-200 shrink-0",
+                    "flex items-center justify-center gap-1.5 w-full sm:w-auto px-3.5 py-2 rounded-full text-xs font-bold transition-all duration-200",
                     inStock
                       ? "bg-primary text-primary-foreground hover:opacity-90 shadow-sm"
                       : "bg-muted text-muted-foreground cursor-not-allowed"
@@ -151,7 +153,7 @@ export const VetProductCard = memo(function VetProductCard({ product, index = 0 
                   aria-label="Add to cart"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  <span>Add</span>
+                  <span>Add to cart</span>
                 </button>
               )}
             </div>
